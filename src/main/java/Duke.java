@@ -1,5 +1,7 @@
 import java.util.Scanner;
+import java.util.*;
 public class Duke {
+    static List<String> tasks = new ArrayList<>();
     public static void main(String[] args) {
         String logo = "Sophia";
         System.out.println("Hello! I'm " + logo + "\nWhat can I do for you you?");
@@ -10,8 +12,15 @@ public class Duke {
                 scn.close();
                 System.out.println("Bye. Hope to see you again soon!");
                 break;
-            }else {
-                System.out.println(input);
+            }else if(input.equals("list")) {
+                int idx = 1;
+                for(String s : tasks) {
+                    System.out.println(idx + ". " + s);
+                    idx+=1;
+                }
+            } else {
+                tasks.add(input);
+                System.out.println("added: " + input);
             }
         }
     }
