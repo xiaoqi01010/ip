@@ -1,4 +1,4 @@
-public final class Task {
+public abstract class Task {
     private String name = "undefined";
     private char Type;
     private int idx = -1;

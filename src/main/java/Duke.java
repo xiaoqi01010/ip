@@ -16,22 +16,29 @@ public class Duke {
     }
     private void addTask(String input,String Type){
         char ch = ' ';
+        Task new_task = null;
         //System.out.print(Type);
         if(Type.equals("todo")){
             ch = 'T';
+            new_task = new TodoTask(input,++count,ch);
         }else if(Type.equals("deadline")){
             ch = 'D';
+            String[] task_info = input.split("/by ");
+            new_task = new DeadlineTask(task_info[0],++count,ch,task_info[task_info.length-1]);
         } else if(Type.equals("event")){
             ch = 'E';
+            String[] task_info = input.split("/");
+            String from = task_info[task_info.length-2].split("from ")[1];
+            String to = task_info[task_info.length-1].split("to ")[1];
+            new_task = new EventTask(task_info[0],++count,ch,from,to);
         } else {
             System.out.println("Invalid Type");
             return;
         }
         //System.out.print(ch);
         System.out.println("added: " + input);
-        Task new_task = new Task(input,++count,ch);
         tasks.add(new_task);
-        System.out.println(new_task.toString());
+        System.out.println(new_task);
         System.out.println("Now you have "+count+" tasks in the list");
     }
     public void handleTask(int index, boolean done){
