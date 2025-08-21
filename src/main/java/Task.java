@@ -1,4 +1,4 @@
-public class Task {
+public final class Task {
     private String name = "undefined";
     private int idx = -1;
     private boolean done = false;
