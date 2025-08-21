@@ -1,10 +1,12 @@
 public final class Task {
     private String name = "undefined";
+    private char Type;
     private int idx = -1;
     private boolean done = false;
-    public Task(String name, int idx) {
+    public Task(String name, int idx, char type) {
         this.name = name;
         this.idx = idx;
+        this.Type = type;
     }
     public String getName(){
         return this.name;
@@ -16,9 +18,9 @@ public final class Task {
     @Override
     public String toString() {
         if(this.done){
-            return this.idx + ". [X] " + this.name;
+            return "["+this.Type+"][ ] " + this.name;
         }else {
-            return this.idx + ". [ ] " + this.name;
+            return "["+this.Type+"][X] " + this.name;
         }
     }
 

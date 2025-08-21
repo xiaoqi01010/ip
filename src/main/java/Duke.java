@@ -11,11 +11,28 @@ public class Duke {
     }
     private void printList(){
         for(Task task : tasks) {
-            System.out.println(task.toString());
+            System.out.println(task.getIdx() + ". " + task.toString());
         }
     }
-    private void addTask(String input){
-        tasks.add(new Task(input,++count));
+    private void addTask(String input,String Type){
+        char ch = ' ';
+        //System.out.print(Type);
+        if(Type.equals("todo")){
+            ch = 'T';
+        }else if(Type.equals("deadline")){
+            ch = 'D';
+        } else if(Type.equals("event")){
+            ch = 'E';
+        } else {
+            System.out.println("Invalid Type");
+            return;
+        }
+        //System.out.print(ch);
+        System.out.println("added: " + input);
+        Task new_task = new Task(input,++count,ch);
+        tasks.add(new_task);
+        System.out.println(new_task.toString());
+        System.out.println("Now you have "+count+" tasks in the list");
     }
     public void handleTask(int index, boolean done){
         if (index < 0 || index >= tasks.size()) {
@@ -63,8 +80,7 @@ public class Duke {
                     break;
                 }
                 default -> {
-                    addTask(input);
-                    System.out.println("added: " + input);
+                    addTask(userInputs[1],userInputs[0]);
                 }
             }
         }
