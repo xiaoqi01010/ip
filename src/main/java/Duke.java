@@ -71,10 +71,10 @@ public class Duke {
             System.out.println("No such task exists!");
             return;
         }
-        tasks.remove(index);
         System.out.println("Noted. I've removed this task:\n"
                 + tasks.get(index).toString()
         );
+        tasks.remove(index);
         System.out.println("Now you have "+tasks.size()+" tasks in the list");
     }
     private void run() {
@@ -121,6 +121,7 @@ public class Duke {
                     int index;
                     try{
                         index = Integer.parseInt(userInputs[1])-1;
+                        System.out.println(index);
                     } catch(NumberFormatException e){
                         System.out.println("Index must be a number.");
                         break;
