@@ -1,7 +1,7 @@
-public class EventTask extends Task {
+public final class EventTask extends Task {
     private String startDate,endDate;
-    public EventTask(String input, int idx, char Type, String startDate, String endDate){
-        super(input, idx, Type);
+    public EventTask(String input, char Type, String startDate, String endDate){
+        super(input, Type);
         this.startDate = startDate;
         this.endDate = endDate;
     }

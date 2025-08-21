@@ -1,7 +1,7 @@
-public class DeadlineTask extends Task{
+public final class DeadlineTask extends Task{
     private String ddl;
-    public DeadlineTask(String input, int idx, char Type, String ddl){
-        super(input, idx, Type);
+    public DeadlineTask(String input, char Type, String ddl){
+        super(input, Type);
         this.ddl = ddl;
     }
     @Override
