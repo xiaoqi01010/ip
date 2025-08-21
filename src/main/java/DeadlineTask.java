@@ -1,11 +1,11 @@
 public final class DeadlineTask extends Task{
     private String ddl;
-    public DeadlineTask(String input, char Type, String ddl){
-        super(input, Type);
+    public DeadlineTask(String input, String ddl){
+        super(input);
         this.ddl = ddl;
     }
     @Override
     public String toString(){
-        return super.toString() + "(by: "+ddl+")";
+        return "[D]"+super.toString() + "(by: "+ddl+")";
     }
 }

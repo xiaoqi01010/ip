@@ -1,10 +1,8 @@
 public abstract class Task {
     private String name = "undefined";
-    private char Type;
     private boolean done = false;
-    public Task(String name, char type) {
+    public Task(String name) {
         this.name = name;
-        this.Type = type;
     }
     public String getName(){
         return this.name;
@@ -13,9 +11,9 @@ public abstract class Task {
     @Override
     public String toString() {
         if(this.done){
-            return "["+this.Type+"][ ] " + this.name;
+            return "[ ] " + this.name;
         }else {
-            return "["+this.Type+"][X] " + this.name;
+            return "[X] " + this.name;
         }
     }
 
