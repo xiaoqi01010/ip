@@ -66,17 +66,17 @@ public class Duke {
                 + tasks.get(index).toString()
         );
     }
-//    public void deleteTask(int index){
-//        if (index < 0 || index >= tasks.size()) {
-//            System.out.println("No such task exists!");
-//            return;
-//        }
-//        tasks.remove(index);
-//        System.out.println("Noted. I've removed this task:\n"
-//                + tasks.get(index).toString()
-//        );
-//        System.out.println("Now you have "+tasks.size()+" tasks in the list");
-//    }
+    public void deleteTask(int index){
+        if (index < 0 || index >= tasks.size()) {
+            System.out.println("No such task exists!");
+            return;
+        }
+        tasks.remove(index);
+        System.out.println("Noted. I've removed this task:\n"
+                + tasks.get(index).toString()
+        );
+        System.out.println("Now you have "+tasks.size()+" tasks in the list");
+    }
     private void run() {
         System.out.println("Hello! I'm " + this.name + "\nWhat can I do for you you?");
         Scanner scanner = new Scanner(System.in);
@@ -114,19 +114,19 @@ public class Duke {
                     }
                     addTask(userInputs[1],userInputs[0]);
                 }
-//                case "delete" -> {
-//                    if(userInputs.length != 2) {
-//                        System.out.println("Usage: "+cmd+" <index>");
-//                    }
-//                    int index;
-//                    try{
-//                        index = Integer.parseInt(userInputs[1])-1;
-//                    } catch(NumberFormatException e){
-//                        System.out.println("Index must be a number.");
-//                        break;
-//                    }
-//                    deleteTask(index);
-//                }
+                case "delete" -> {
+                    if(userInputs.length != 2) {
+                        System.out.println("Usage: "+cmd+" <index>");
+                    }
+                    int index;
+                    try{
+                        index = Integer.parseInt(userInputs[1])-1;
+                    } catch(NumberFormatException e){
+                        System.out.println("Index must be a number.");
+                        break;
+                    }
+                    deleteTask(index);
+                }
                 default -> {
                     System.out.println("Invalid Command: " + cmd);
                 }
