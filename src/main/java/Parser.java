@@ -1,4 +1,3 @@
-package PACKAGE_NAME;
-
-public class Parser {
+public interface Parser {
+    public Task parse() throws DukeException;
 }

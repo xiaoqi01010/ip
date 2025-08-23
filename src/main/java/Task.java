@@ -1,5 +1,5 @@
 public abstract class Task {
-    private String name = "undefined";
+    private final String name;
     private boolean done = false;
     public Task(String name) {
         this.name = name;
@@ -11,9 +11,9 @@ public abstract class Task {
     @Override
     public String toString() {
         if(this.done){
-            return "[ ] " + this.name;
-        }else {
             return "[X] " + this.name;
+        }else {
+            return "[ ] " + this.name;
         }
     }
 
@@ -25,8 +25,5 @@ public abstract class Task {
         return this.done;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
 }
 //Inner variables

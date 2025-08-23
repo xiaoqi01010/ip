@@ -1,61 +1,64 @@
 import java.util.Scanner;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+
+import static java.lang.System.exit;
+
 //used ChatGpt for quality check of code
 public class Duke {
     //Keep a list of internal tasks
     private final List<Task> tasks = new ArrayList<>();
     private final String name;
+    public enum taskTypes{TODO, DEADLINE,EVENT}
     public Duke(String name) {
         this.name = name;
     }
     private void printList(){
         for(int i = 0; i < tasks.size(); i++) {
-            System.out.println(i+1+". " + tasks.get(i).toString());
+            System.out.println(i + 1 + ". " + tasks.get(i).toString());
         }
     }
-    private void addTask(String input,String Type){
+    private void addTask(String[] input,taskTypes Type) throws DukeException{
         Task new_task;
         //System.out.print(Type);
+        if(input.length <= 1) {throw new DukeException("Invalid command too few arguments");}
         switch (Type) {
-            case "todo" -> {
-                new_task = new TodoTask(input);
-                if(input.isBlank()){
-                    System.out.println("The description of a todo cannot be empty.");
-                    return;
-                }
+            case TODO -> {
+                TodoTaskParser parser = new TodoTaskParser(input[1]);
+                new_task = parser.parse();
             }
-            case "deadline" -> {
-                String[] task_info = input.split("/by ");
-                //System.out.println(Arrays.toString(task_info));
-                if(input.isBlank() || task_info.length == 1){
-                    System.out.println("The description or date of a deadline task cannot be empty.");
-                    return;
-                }
-                new_task = new DeadlineTask(task_info[0],task_info[task_info.length - 1]);
+            case DEADLINE -> {
+                DeadlineTaskParser parser = new DeadlineTaskParser(input[1]);
+                new_task = parser.parse();
             }
-            case "event" -> {
-                String[] task_info = input.split("/");
-                String[] from = task_info[task_info.length - 2].split("from ");
-                String[] to = task_info[task_info.length - 1].split("to ");
-
-                if(input.isBlank() || from.length == 1 || to.length == 1){
-                    System.out.println("The description or start date or end date of an event task cannot be empty.");
-                    return;
-                }
-                new_task = new EventTask(task_info[0],from[1],to[1]);
+            case EVENT -> {
+                EventTaskParser parser = new EventTaskParser(input[1]);
+                new_task = parser.parse();
             }
             default -> {
-                System.out.println("Invalid Type");
-                return;
+                throw new DukeException("Invalid Type of command");
             }
         }
         //System.out.print(ch);
-        System.out.println("added: " + input);
         tasks.add(new_task);
+        System.out.println("Got it. I've added this task: ");
         System.out.println(new_task);
         System.out.println("Now you have "+tasks.size()+" tasks in the list");
     }
-    public void handleTask(int index, boolean done){
+    public void handleTask(String[] userInputs){
+        if(userInputs.length != 2) {
+            System.out.println("Usage: "+userInputs[0]+" <index>");
+            return;
+        }
+        int index;
+        try{
+            index = Integer.parseInt(userInputs[1])-1;
+        } catch(NumberFormatException e){
+            System.out.println("Index must be a number.");
+            return;
+        }
+        boolean done = userInputs[0].equals("mark");
         if (index < 0 || index >= tasks.size()) {
             System.out.println("No such task exists!");
             return;
@@ -66,7 +69,23 @@ public class Duke {
                 + tasks.get(index).toString()
         );
     }
-    public void deleteTask(int index){
+    public void handleBye(Scanner scanner) {
+        scanner.close();
+        System.out.println("Bye. Hope to see you again soon!");
+        exit(-1);
+    }
+    public void deleteTask(String[] input) throws DukeException{
+        if(input.length != 2) {
+            throw new DukeException("Usage: delete <index>");
+        }
+        int index;
+        try{
+            index = Integer.parseInt(input[1])-1;
+            System.out.println(index);
+        } catch(NumberFormatException e){
+            System.out.println("Index must be a number.");
+            return;
+        }
         if (index < 0 || index >= tasks.size()) {
             System.out.println("No such task exists!");
             return;
@@ -77,8 +96,8 @@ public class Duke {
         tasks.remove(index);
         System.out.println("Now you have "+tasks.size()+" tasks in the list");
     }
-    private void run() {
-        System.out.println("Hello! I'm " + this.name + "\nWhat can I do for you you?");
+    private void run() throws DukeException{
+        System.out.println("Hello! I'm " + this.name + "\nWhat can I do for you?");
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
@@ -86,55 +105,22 @@ public class Duke {
             String[] userInputs = input.split("\\s+",2);
             String cmd = userInputs[0].toLowerCase();
             switch(cmd) {
-                case "bye" -> {
-                    scanner.close();
-                    System.out.println("Bye. Hope to see you again soon!");
-                    return;
-                }
+                case "bye" -> handleBye(scanner);
                 case "list" -> printList();
-                case "mark","unmark" -> {
-                    if(userInputs.length != 2) {
-                        System.out.println("Usage: "+cmd+" <index>");
-                        break;
-                    }
-                    int index;
-                    try{
-                        index = Integer.parseInt(userInputs[1])-1;
-                    } catch(NumberFormatException e){
-                        System.out.println("Index must be a number.");
-                        break;
-                    }
-                    boolean done = cmd.equals("mark");
-                    handleTask(index,done);
-                }
-                case "event","todo","deadline" -> {
-                    if(userInputs.length != 2) {
-                        System.out.println("Usage: "+cmd+" <description>");
-                        break;
-                    }
-                    addTask(userInputs[1],userInputs[0]);
-                }
-                case "delete" -> {
-                    if(userInputs.length != 2) {
-                        System.out.println("Usage: "+cmd+" <index>");
-                    }
-                    int index;
-                    try{
-                        index = Integer.parseInt(userInputs[1])-1;
-                        System.out.println(index);
-                    } catch(NumberFormatException e){
-                        System.out.println("Index must be a number.");
-                        break;
-                    }
-                    deleteTask(index);
-                }
-                default -> {
-                    System.out.println("Invalid Command: " + cmd);
-                }
+                case "mark","unmark" -> handleTask(userInputs);
+                case "todo" -> addTask(userInputs,taskTypes.TODO);
+                case "event"-> addTask(userInputs,taskTypes.EVENT);
+                case "deadline"-> addTask(userInputs,taskTypes.DEADLINE);
+                case "delete" -> deleteTask(userInputs);
+                default -> System.out.println("Invalid Command: " + cmd);
             }
         }
     }
     public static void main(String[] args) {
+        try {
             new Duke("Sophia").run();
+        } catch (DukeException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
