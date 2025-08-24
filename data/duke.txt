@@ -1,2 +1,1 @@
 T | 0 | read books
-E | 0 | group meeting | Sunday 10am | 12pm
