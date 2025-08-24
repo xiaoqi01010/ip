@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
+import java.nio.file.*;
 
 import static java.lang.System.exit;
 
@@ -116,6 +117,11 @@ public class Duke {
 
     public void saveTasks(String input) throws DukeException{
         try{
+            File directory = new File("./data/");
+            if(!directory.exists()) {
+                System.out.println("./data/: No such directory exists!");
+                directory.mkdir();
+            }
             File task_file = new File("./data/duke.txt");
             if(!task_file.exists()){
                 task_file.createNewFile();
