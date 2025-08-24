@@ -1,4 +1,4 @@
 T | 0 | read
-E | 0 | return books | Sep 23 2025 | Sep 26 2025
 D | 0 | return books | Sep 23 2025
 E | 1 | group meeting | Aug 23 2025 | Aug 24 2025
+T | 1 | join Maths Club
