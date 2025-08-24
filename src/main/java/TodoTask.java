@@ -1,9 +1,20 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 public final class TodoTask extends Task{
+
     public TodoTask(String input){
         super(input);
     }
+
+    @Override
+    public void write(BufferedWriter bw) throws IOException {
+        bw.write("T | " + (isDone()? 1:0) + " | " + getName() + "\n");
+        bw.flush();
+    }
+
     @Override
     public String toString(){
-        return "[T]"+super.toString();
+        return "[T]" + super.toString();
     }
 }
