@@ -1,3 +1,3 @@
 public interface Parser {
-    public Task parse() throws DukeException;
+    public Task parse() throws SohpiaException;
 }
