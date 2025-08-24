@@ -6,14 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-import java.nio.file.*;
 
 import static java.lang.System.exit;
 
 //used ChatGpt for quality check of code
-public class Duke {
+public class Sophia {
     //Keep a list of internal tasks
-    private static final String name = "Duke";
+    private static final String name = "Sophia";
     private final List<Task> tasks = new ArrayList<>();
     public enum taskTypes{
         TODO("todo"),
@@ -31,15 +30,15 @@ public class Duke {
         }
     }
 
-    private void printList(String input) throws DukeException{
-        if(!validateListInput(input)) throw new DukeException("Usage: list");
+    private void printList(String input) throws SohpiaException {
+        if(!validateListInput(input)) throw new SohpiaException("Usage: list");
         System.out.println("__________________________________________________");
         for(int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i).toString());
         }
     }
 
-    private void addTask(String input,taskTypes Type) throws DukeException {
+    private void addTask(String input,taskTypes Type) throws SohpiaException {
         Task new_task;
         String[] segments =  input.split(" ");
         String description = String.join(" ",
@@ -48,25 +47,25 @@ public class Duke {
         switch (Type) {
 
             case TODO -> {
-                if(!validateTodoInput(input)) throw new DukeException("todo <description>");
+                if(!validateTodoInput(input)) throw new SohpiaException("todo <description>");
                 TodoTaskParser parser = new TodoTaskParser(description);
                 new_task = parser.parse();
             }
 
             case DEADLINE -> {
-                if(!validateDeadlineInput(input)) throw new DukeException("deadline <description> /by <date>");
+                if(!validateDeadlineInput(input)) throw new SohpiaException("deadline <description> /by <date>");
                 DeadlineTaskParser parser = new DeadlineTaskParser(description);
                 new_task = parser.parse();
             }
 
             case EVENT -> {
-                if(!validateEventInput(input)) throw new DukeException("event <description> /from <date> /to <date>");
+                if(!validateEventInput(input)) throw new SohpiaException("event <description> /from <date> /to <date>");
                 EventTaskParser parser = new EventTaskParser(description);
                 new_task = parser.parse();
             }
 
             default -> {
-                throw new DukeException("Invalid Type of command");
+                throw new SohpiaException("Invalid Type of command");
             }
         }
 
@@ -78,11 +77,11 @@ public class Duke {
         System.out.println("Now you have "+tasks.size()+" tasks in the list");
     }
 
-    public void handleTask(String userInputs, boolean done) throws DukeException {
+    public void handleTask(String userInputs, boolean done) throws SohpiaException {
 
         if(!validateMarkInput(userInputs) && !validateUnmarkInput(userInputs) ){
-            if(done) throw new DukeException("Usage: mark <index>");
-            else throw new DukeException("Usage: unmark <index>");
+            if(done) throw new SohpiaException("Usage: mark <index>");
+            else throw new SohpiaException("Usage: unmark <index>");
         }
 
         int index;
@@ -107,22 +106,22 @@ public class Duke {
         );
     }
 
-    public void handleBye(Scanner scanner,String input) throws DukeException {
-        if(!validateByeInput(input)) throw new DukeException("Usage: bye");
+    public void handleBye(Scanner scanner,String input) throws SohpiaException {
+        if(!validateByeInput(input)) throw new SohpiaException("Usage: bye");
         scanner.close();
         System.out.println("__________________________________________________");
         System.out.println("Bye. Hope to see you again soon!");
         exit(-1);
     }
 
-    public void saveTasks(String input) throws DukeException{
+    public void saveTasks(String input) throws SohpiaException {
         try{
             File directory = new File("./data/");
             if(!directory.exists()) {
                 System.out.println("./data/: No such directory exists!");
                 directory.mkdir();
             }
-            File task_file = new File("./data/duke.txt");
+            File task_file = new File("./data/sophia.txt");
             if(!task_file.exists()){
                 task_file.createNewFile();
             }
@@ -133,15 +132,15 @@ public class Duke {
             }
             bw.close();
         }catch(Exception e){
-            throw new DukeException(e.getMessage());
+            throw new SohpiaException(e.getMessage());
         }
 
         System.out.println("___________________________________________________");
         System.out.println("Saved tasks to file");
     }
-    public void deleteTask(String input) throws DukeException{
+    public void deleteTask(String input) throws SohpiaException {
         if(!validateDeleteInput(input)){
-            throw new DukeException("Usage: delete <index>");
+            throw new SohpiaException("Usage: delete <index>");
         }
 
         int index;
@@ -202,7 +201,7 @@ public class Duke {
     private static boolean validateByeInput(String str) {
         return validateInput(str, Pattern.compile("^bye$"));
     }
-    private void run() throws DukeException {
+    private void run() throws SohpiaException {
         System.out.println("__________________________________________________");
         System.out.println("Hello! I'm " + name + "\nWhat can I do for you?");
         Scanner scanner = new Scanner(System.in);
@@ -218,7 +217,7 @@ public class Duke {
                     .orElse(null);
 
             if(type == null) {
-                throw new DukeException("Invalid command: " + cmd);
+                throw new SohpiaException("Invalid command: " + cmd);
             }
             switch(type) {
                 case BYE -> handleBye(scanner,input);
@@ -236,8 +235,8 @@ public class Duke {
     }
     public static void main(String[] args) {
         try {
-            new Duke().run();
-        } catch (DukeException e) {
+            new Sophia().run();
+        } catch (SohpiaException e) {
             System.out.println(e.getMessage());
         }
     }

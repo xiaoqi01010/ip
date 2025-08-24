@@ -1,12 +1,10 @@
-import java.util.Arrays;
-
 public class EventTaskParser implements Parser {
     String arguments;
     public EventTaskParser(String arguments) {
         this.arguments = arguments;
     }
     @Override
-    public Task parse() throws DukeException {
+    public Task parse() throws SohpiaException {
         String[] task_info = this.arguments.split("/");
         //System.out.println(Arrays.toString(task_info));
         String from = task_info[task_info.length - 2].split("from ")[1].trim();
