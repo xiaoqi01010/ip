@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 public abstract class Task {
     private final String name;
     private boolean done = false;
@@ -7,6 +10,7 @@ public abstract class Task {
     public String getName(){
         return this.name;
     }
+    public abstract void write(BufferedWriter bw) throws IOException;
 
     @Override
     public String toString() {
