@@ -4,7 +4,7 @@ public class EventTaskParser implements Parser {
         this.arguments = arguments;
     }
     @Override
-    public Task parse() throws SohpiaException {
+    public Task parse() throws SophiaException {
         String[] task_info = this.arguments.split("/");
         //System.out.println(Arrays.toString(task_info));
         String from = task_info[task_info.length - 2].split("from ")[1].trim();
