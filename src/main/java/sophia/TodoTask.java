@@ -8,12 +8,19 @@ public final class TodoTask extends Task {
         super(input);
     }
 
+    /**
+     * For TodoTask to write its information
+     * @param bw to write into specified file
+     * @throws IOException
+     */
     @Override
     public void write(BufferedWriter bw) throws IOException {
         bw.write("T | " + (isDone()? 1:0) + " | " + getName() + "\n");
         bw.flush();
     }
-
+    /**
+     * String representation of TodoTask
+     * **/
     @Override
     public String toString(){
         return "[T]" + super.toString();

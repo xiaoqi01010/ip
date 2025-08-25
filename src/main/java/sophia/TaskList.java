@@ -8,18 +8,34 @@ import java.util.List;
 public class TaskList {
     private final List<Task> tasks = new ArrayList<>();
 
+    /**
+     * Constructor of TaskList
+     * <p>
+     * @param xs specifies a list of Tasks which are to be added to taskList upon initialisation
+     */
     public TaskList(List<Task> xs) throws FileNotFoundException {
         tasks.addAll(xs);
     }
 
+    /**
+     * Iterate through each task, allowing each task to write its information into a file using
+     * a buffered Writer
+     * <p>
+     * @param bw specifies a BufferedWriter
+     */
     public void write(BufferedWriter bw) throws IOException {
         for (Task task : tasks) {
             task.write(bw);
         }
     }
-
+    /**
+     * Default Constructor
+     */
     public TaskList() {}
 
+    /**
+     * iterate through every task to print the information of every task
+     */
     public void printList() {
         for(int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i).toString());
@@ -38,6 +54,10 @@ public class TaskList {
         this.tasks.get(index).setDone(done);
     }
 
+    /**
+     * Retrieve the respective index_th task and print the string representation
+     * @param index index of the task to retrieve
+     */
     public String getTask(int index) {
         return this.tasks.get(index).toString();
     }

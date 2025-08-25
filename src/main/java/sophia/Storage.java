@@ -8,7 +8,11 @@ import java.util.Objects;
 
 public class Storage {
     private final String file_path;
-
+    /**
+     * Constructor of Storage
+     * <p>
+     * @param file_path specifies a valid file path.
+     */
     public Storage(String file_path) {
         this.file_path = file_path;
     }
@@ -28,6 +32,9 @@ public class Storage {
         bw.close();
     }
 
+    /**
+     * Returns a list of tasks of type Task by reading from the file path specified in constructor
+     */
     public List<Task> load() throws FileNotFoundException {
         List<Task> tasks = new ArrayList<>();
         File file = new File(file_path);

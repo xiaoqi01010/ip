@@ -7,6 +7,12 @@ public class TodoTaskParser implements Parser {
     public TodoTaskParser(String arguments) {
         this.arguments = arguments;
     }
+
+    /**
+     *
+     * @return a TodoTask by invoking TodoTask constructor
+     * @throws SophiaException if the argument is blank
+     */
     @Override
     public Task parse() throws SophiaException {
         if(this.arguments.isBlank()) throw new SophiaException("Usage: todo <description>");
