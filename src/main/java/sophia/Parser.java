@@ -1,3 +1,5 @@
+package sophia;
+
 import java.util.regex.Pattern;
 
 public interface Parser {

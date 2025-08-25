@@ -1,7 +1,8 @@
+package sophia;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public final class TodoTask extends Task{
+public final class TodoTask extends Task {
 
     public TodoTask(String input){
         super(input);

@@ -1,7 +1,9 @@
+package sophia;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public final class DeadlineTask extends Task{
+public final class DeadlineTask extends Task {
     private String ddl;
     public DeadlineTask(String input, String ddl){
         super(input);

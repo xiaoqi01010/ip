@@ -1,3 +1,5 @@
+package sophia;
+
 public class EventTaskParser implements Parser {
     String arguments;
     public EventTaskParser(String arguments) {

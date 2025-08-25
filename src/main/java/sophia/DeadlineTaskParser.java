@@ -1,3 +1,5 @@
+package sophia;
+
 public class DeadlineTaskParser implements Parser {
     String arguments;
     public DeadlineTaskParser(String arguments) {

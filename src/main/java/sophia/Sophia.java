@@ -1,3 +1,8 @@
+package sophia;
+import sophia.DeadlineTaskParser;
+import sophia.EventTaskParser;
+import sophia.Parser;
+import sophia.SophiaException;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Arrays;
@@ -170,7 +175,7 @@ public class Sophia {
 
     public static void main(String[] args) {
         try {
-            new Sophia("./data/test.txt").run();
+            new Sophia("../data/test.txt").run();
         } catch (SophiaException e) {
             System.out.println(e.getMessage());
         }

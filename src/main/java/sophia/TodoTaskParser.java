@@ -1,3 +1,7 @@
+package sophia;
+import sophia.Parser;
+import sophia.SophiaException;
+
 public class TodoTaskParser implements Parser {
     String arguments;
     public TodoTaskParser(String arguments) {
