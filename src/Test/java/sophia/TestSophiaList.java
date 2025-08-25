@@ -19,6 +19,6 @@ public class TestSophiaList {
         """);
         br.flush();
         Sophia sophia = new Sophia(file.getPath());
-        assertEquals(sophia.TestDeleteTask("delete 1"),"[T][ ] read");
+        assertEquals(sophia.testDeleteTask("delete 1"),"[T][ ] read");
     }
 }

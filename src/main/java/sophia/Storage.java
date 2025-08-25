@@ -53,7 +53,7 @@ public class Storage {
                 Task temp = new DeadlineTask(t[2],t[3]);
                 temp.setDone(t[1].equals("1"));
                 tasks.add(temp);
-            } else if(Objects.equals(t[0], "E")){
+            } else if(Objects.equals(t[0], "E")) {
                 Task temp = new EventTask(t[2],t[3],t[4]);
                 temp.setDone(t[1].equals("1"));
                 tasks.add(temp);

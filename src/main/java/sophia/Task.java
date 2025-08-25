@@ -54,7 +54,7 @@ public abstract class Task {
      *
      * @return the task's name
      */
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
@@ -81,7 +81,7 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        if(this.done){
+        if(this.done) {
             return "[X] " + this.name;
         }else {
             return "[ ] " + this.name;
@@ -93,7 +93,7 @@ public abstract class Task {
      *
      * @param done {@code true} if the task is completed, {@code false} otherwise
      */
-    public void setDone(boolean done){
+    public void setDone(boolean done) {
         this.done = done;
     }
 
@@ -102,7 +102,7 @@ public abstract class Task {
      *
      * @return {@code true} if the task is completed, {@code false} otherwise
      */
-    public boolean isDone(){
+    public boolean isDone() {
         return this.done;
     }
 

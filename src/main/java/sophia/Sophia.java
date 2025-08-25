@@ -12,26 +12,10 @@ import static java.lang.System.exit;
 //used ChatGpt for quality check of code
 public class Sophia {
     //Keep a list of internal tasks
-    private static final String name = "Sophia";
+    private static final String NAME = "Sophia";
     private final TaskList taskList;
     private final UI ui;
     private final Storage storage;
-    public enum taskTypes{
-        TODO("todo"),
-        BYE("bye"),
-        MARK("mark"),
-        UNMARK("unmark"),
-        DELETE("delete"),
-        DEADLINE("deadline"),
-        EVENT("event"),
-        LIST("list"),
-        SAVE("save");
-        public final String keyword;
-        taskTypes(String keyword) {
-            this.keyword = keyword;
-        }
-    }
-
     /**
      * Returns a Sophia Object which performs the chatting
      * <p>
@@ -77,7 +61,7 @@ public class Sophia {
        return parser.parse();
     }
 
-    private void addTask(String input,taskTypes Type) throws SophiaException {
+    private void addTask(String input,TaskType Type) throws SophiaException {
         Task new_task;
         String[] segments =  input.split(" ");
         String description = String.join(" ",
@@ -85,11 +69,8 @@ public class Sophia {
 
         switch (Type) {
             case TODO ->  new_task = addTodo(input, description);
-
             case DEADLINE -> new_task = addDeadline(input, description);
-
             case EVENT -> new_task = addEvent(input, description);
-
             default -> {
                 throw new SophiaException("Invalid Type of command");
             }
@@ -101,7 +82,7 @@ public class Sophia {
 
     private void handleTask(String userInputs, boolean done) throws SophiaException {
 
-        if(!Parser.validateMarkInput(userInputs) && !Parser.validateUnmarkInput(userInputs) ){
+        if(!Parser.validateMarkInput(userInputs) && !Parser.validateUnmarkInput(userInputs) ) {
             if(done) throw new SophiaException("Usage: mark <index>");
             else throw new SophiaException("Usage: unmark <index>");
         }
@@ -128,15 +109,15 @@ public class Sophia {
         if(!Parser.validateSaveInput(input)) throw new SophiaException("Usage: save");
         try{
             storage.save(taskList);
-        }catch(Exception e){
+        }catch(Exception e) {
             throw new SophiaException(e.getMessage());
         }
         ui.printLine();
         ui.saved();
     }
 
-    public String TestDeleteTask(String input) throws SophiaException {
-        if(!Parser.validateDeleteInput(input)){
+    public String testDeleteTask(String input) throws SophiaException {
+        if(!Parser.validateDeleteInput(input)) {
             throw new SophiaException("Usage: delete <index>");
         }
         int index = Integer.parseInt(input.split(" ")[1])-1;
@@ -149,7 +130,7 @@ public class Sophia {
     }
 
     private void deleteTask(String input) throws SophiaException {
-        if(!Parser.validateDeleteInput(input)){
+        if(!Parser.validateDeleteInput(input)) {
             throw new SophiaException("Usage: delete <index>");
         }
         int index = Integer.parseInt(input.split(" ")[1])-1;
@@ -162,7 +143,7 @@ public class Sophia {
     }
 
     private void run() throws SophiaException {
-        ui.introduction(name);
+        ui.introduction(NAME);
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
@@ -173,7 +154,7 @@ public class Sophia {
             String[] userInputs = input.split("\\s+",2);
             String cmd = userInputs[0];
 
-            taskTypes type = Arrays.stream(taskTypes.values())
+            TaskType type = Arrays.stream(TaskType.values())
                     .filter(t -> t.keyword.equals(cmd))
                     .findFirst()
                     .orElse(null);
@@ -187,9 +168,9 @@ public class Sophia {
                     case LIST -> printList(input);
                     case MARK -> handleTask(input, true);
                     case UNMARK -> handleTask(input, false);
-                    case TODO -> addTask(input, taskTypes.TODO);
-                    case EVENT -> addTask(input, taskTypes.EVENT);
-                    case DEADLINE -> addTask(input, taskTypes.DEADLINE);
+                    case TODO -> addTask(input, TaskType.TODO);
+                    case EVENT -> addTask(input, TaskType.EVENT);
+                    case DEADLINE -> addTask(input, TaskType.DEADLINE);
                     case DELETE -> deleteTask(input);
                     case SAVE -> saveTasks(input);
                     default -> System.out.println("Invalid Command: " + cmd);

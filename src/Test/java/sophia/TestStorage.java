@@ -13,7 +13,7 @@ public class TestStorage {
     @Test
     public void TestStorage() throws IOException {
         File file = new File("./data/test_storage.txt");
-        if(!file.exists()){
+        if(!file.exists()) {
             file.createNewFile();
         }
         BufferedWriter br = new BufferedWriter(new FileWriter(file));
@@ -37,7 +37,7 @@ public class TestStorage {
     }
 
     @Test
-    public void anotherDummyTest(){
+    public void anotherDummyTest() {
         assertEquals(4, 4);
     }
 }
