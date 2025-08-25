@@ -44,10 +44,30 @@ public class Sophia {
         }
         this.taskList = taskList1;
     }
-    private void printList(String input) throws SophiaException {
+    public void printList(String input) throws SophiaException {
         if(!Parser.validateListInput(input)) throw new SophiaException("Usage: list");
         ui.printLine();
         ui.printList(taskList);
+    }
+    //public for testing
+    private Task addTodo(String input, String description) throws SophiaException {
+        if(!Parser.validateTodoInput(input)) throw new SophiaException("todo <description>");
+        TodoTaskParser parser = new TodoTaskParser(description);
+        return parser.parse();
+    }
+
+    //public for testing
+    private Task addDeadline(String input, String description) throws SophiaException {
+        if(!Parser.validateDeadlineInput(input)) throw new SophiaException("deadline <description> /by <date>");
+        DeadlineTaskParser parser = new DeadlineTaskParser(description);
+        return parser.parse();
+    }
+
+    //public for testing
+    private Task addEvent(String input, String description) throws SophiaException {
+       if(!Parser.validateEventInput(input)) throw new SophiaException("event <description> /from <date> /to <date>");
+       EventTaskParser parser = new EventTaskParser(description);
+       return parser.parse();
     }
 
     private void addTask(String input,taskTypes Type) throws SophiaException {
@@ -57,23 +77,11 @@ public class Sophia {
                 Arrays.copyOfRange(input.split(" "), 1, segments.length));
 
         switch (Type) {
-            case TODO -> {
-                if(!Parser.validateTodoInput(input)) throw new SophiaException("todo <description>");
-                TodoTaskParser parser = new TodoTaskParser(description);
-                new_task = parser.parse();
-            }
+            case TODO ->  new_task = addTodo(input, description);
 
-            case DEADLINE -> {
-                if(!Parser.validateDeadlineInput(input)) throw new SophiaException("deadline <description> /by <date>");
-                DeadlineTaskParser parser = new DeadlineTaskParser(description);
-                new_task = parser.parse();
-            }
+            case DEADLINE -> new_task = addDeadline(input, description);
 
-            case EVENT -> {
-                if(!Parser.validateEventInput(input)) throw new SophiaException("event <description> /from <date> /to <date>");
-                EventTaskParser parser = new EventTaskParser(description);
-                new_task = parser.parse();
-            }
+            case EVENT -> new_task = addEvent(input, description);
 
             default -> {
                 throw new SophiaException("Invalid Type of command");
@@ -118,6 +126,18 @@ public class Sophia {
         }
         ui.printLine();
         ui.saved();
+    }
+    public String TestDeleteTask(String input) throws SophiaException {
+        if(!Parser.validateDeleteInput(input)){
+            throw new SophiaException("Usage: delete <index>");
+        }
+        int index = Integer.parseInt(input.split(" ")[1])-1;
+        if (index < 0 || index >= taskList.taskListSize()) {
+            System.out.println("No such task exists!");
+            return "Error";
+        }
+        taskList.removeTask(index);
+        return ui.testDeleteTask(index,taskList);
     }
 
     public void deleteTask(String input) throws SophiaException {

@@ -32,7 +32,9 @@ public class Storage {
         List<Task> tasks = new ArrayList<>();
         File file = new File(file_path);
         BufferedReader reader = new BufferedReader(new FileReader(file));
+        //System.out.println("HERE");
         reader.lines().forEach(line -> {
+            //System.out.println("OUTPUT: ==> " + line);
             String[] t = line.split("\\|");
             for(int i = 0; i < t.length; i++) { t[i] = t[i].trim(); }
             //System.out.println(Arrays.toString(t));

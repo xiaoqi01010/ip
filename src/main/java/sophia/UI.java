@@ -25,6 +25,10 @@ public class UI {
         System.out.println("Now you have " + taskList.taskListSize()+ " tasks in the list");
     }
 
+    public String testDeleteTask(int idx, TaskList taskList){
+        return taskList.getTask(idx);
+    }
+
     public void deleteTask(int idx, TaskList taskList) {
         System.out.println("Noted. I've removed this task:\n"
                 + taskList.getTask(idx)
