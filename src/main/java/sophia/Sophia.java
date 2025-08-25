@@ -4,6 +4,7 @@ import sophia.EventTaskParser;
 import sophia.Parser;
 import sophia.SophiaException;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -102,7 +103,7 @@ public class Sophia {
         if(!Parser.validateByeInput(input)) throw new SophiaException("Usage: bye");
         ui.printLine();
         ui.exit();
-        exit(-1);
+        exit(0);
     }
 
     private void saveTasks(String input) throws SophiaException {
@@ -127,6 +128,14 @@ public class Sophia {
         }
         taskList.removeTask(index);
         return ui.testDeleteTask(index,taskList);
+    }
+
+    private void findTask(String input) throws SophiaException {
+        if(!Parser.validateFindInput(input)) throw new SophiaException("Usage: find <keyword>");
+        String keyword = input.split(" ")[1].trim();
+        List<Task> xs = taskList.findTask(keyword);
+        ui.printLine();
+        ui.printTasksFound(xs);
     }
 
     private void deleteTask(String input) throws SophiaException {
@@ -173,6 +182,7 @@ public class Sophia {
                     case DEADLINE -> addTask(input, TaskType.DEADLINE);
                     case DELETE -> deleteTask(input);
                     case SAVE -> saveTasks(input);
+                    case FIND -> findTask(input);
                     default -> System.out.println("Invalid Command: " + cmd);
                 }
             } catch (SophiaException e) {
@@ -184,7 +194,7 @@ public class Sophia {
 
     public static void main(String[] args) {
         try {
-            new Sophia("../data/test.txt").run();
+            new Sophia("./data/test.txt").run();
         } catch (SophiaException e) {
             System.out.println(e.getMessage());
         }

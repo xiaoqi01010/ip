@@ -1,5 +1,6 @@
 package sophia;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class UI {
@@ -56,6 +57,12 @@ public class UI {
         );
         System.out.println("__________________________________________________");
         System.out.println("Now you have " + taskList.taskListSize() + " tasks in the list");
+    }
+
+    public void printTasksFound(List<Task> taskList) {
+        for (int j = 0; j < taskList.size(); j++) {
+            System.out.println( (j + 1) + ". " + taskList.get(j));
+        }
     }
 
     public void markTask(TaskList taskList, boolean done, int index) {

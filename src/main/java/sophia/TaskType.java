@@ -12,7 +12,8 @@ public enum TaskType {
     DEADLINE("deadline"),
     EVENT("event"),
     LIST("list"),
-    SAVE("save");
+    SAVE("save"),
+    FIND("find");
     public final String keyword;
     TaskType(String keyword) {
         this.keyword = keyword;

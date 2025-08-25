@@ -132,4 +132,7 @@ public interface Parser {
         return validateInput(str, Pattern.compile("^save$"));
     }
 
+    public static boolean validateFindInput(String str) {
+        return validateInput(str, Pattern.compile("^find\\s+\\S+$"));
+    }
 }

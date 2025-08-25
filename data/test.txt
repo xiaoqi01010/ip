@@ -1,3 +1,5 @@
 T | 0 | read
 D | 0 | return books | Sep 23 2025
 E | 1 | group meeting | Aug 23 2025 | Aug 24 2025
+T | 0 | finish homework
+D | 1 | assignment 0 | Sep 23 2025

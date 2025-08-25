@@ -9,6 +9,20 @@ public class TaskList {
     private final List<Task> tasks = new ArrayList<>();
 
     /**
+     * Return a list of Tasks with keywords including key
+     * @param key which is the keyword
+     * @return a list of tasks
+     */
+    public List<Task> findTask(String key) {
+        List<Task> result = new ArrayList<>();
+        for(Task task : tasks) {
+            if(task.getName().contains(key)) {
+                result.add(task);
+            }
+        }
+        return result;
+    }
+    /**
      * Constructor of TaskList
      * <p>
      * @param xs specifies a list of Tasks which are to be added to taskList upon initialisation
