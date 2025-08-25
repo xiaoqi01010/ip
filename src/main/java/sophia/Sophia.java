@@ -32,6 +32,11 @@ public class Sophia {
         }
     }
 
+    /**
+     * Returns a Sophia Object which performs the chatting
+     * <p>
+     * @param filePath specifies a valid file path.
+     */
     public Sophia(String filePath) {
         TaskList taskList1;
         ui = new UI();
@@ -44,11 +49,13 @@ public class Sophia {
         }
         this.taskList = taskList1;
     }
-    public void printList(String input) throws SophiaException {
+
+    private void printList(String input) throws SophiaException {
         if(!Parser.validateListInput(input)) throw new SophiaException("Usage: list");
         ui.printLine();
         ui.printList(taskList);
     }
+
     //public for testing
     private Task addTodo(String input, String description) throws SophiaException {
         if(!Parser.validateTodoInput(input)) throw new SophiaException("todo <description>");
@@ -92,7 +99,7 @@ public class Sophia {
         ui.addTask(new_task,taskList);
     }
 
-    public void handleTask(String userInputs, boolean done) throws SophiaException {
+    private void handleTask(String userInputs, boolean done) throws SophiaException {
 
         if(!Parser.validateMarkInput(userInputs) && !Parser.validateUnmarkInput(userInputs) ){
             if(done) throw new SophiaException("Usage: mark <index>");
@@ -110,14 +117,14 @@ public class Sophia {
         ui.markTask(taskList, done, index);
     }
 
-    public void handleBye(String input) throws SophiaException {
+    private void handleBye(String input) throws SophiaException {
         if(!Parser.validateByeInput(input)) throw new SophiaException("Usage: bye");
         ui.printLine();
         ui.exit();
         exit(-1);
     }
 
-    public void saveTasks(String input) throws SophiaException {
+    private void saveTasks(String input) throws SophiaException {
         if(!Parser.validateSaveInput(input)) throw new SophiaException("Usage: save");
         try{
             storage.save(taskList);
@@ -127,6 +134,7 @@ public class Sophia {
         ui.printLine();
         ui.saved();
     }
+
     public String TestDeleteTask(String input) throws SophiaException {
         if(!Parser.validateDeleteInput(input)){
             throw new SophiaException("Usage: delete <index>");
@@ -140,7 +148,7 @@ public class Sophia {
         return ui.testDeleteTask(index,taskList);
     }
 
-    public void deleteTask(String input) throws SophiaException {
+    private void deleteTask(String input) throws SophiaException {
         if(!Parser.validateDeleteInput(input)){
             throw new SophiaException("Usage: delete <index>");
         }
