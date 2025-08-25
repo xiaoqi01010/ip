@@ -38,10 +38,10 @@ public class UI {
     public void addTask(Task new_task, TaskList taskList) {
         System.out.println("Got it. I've added this task: ");
         System.out.println(new_task);
-        System.out.println("Now you have " + taskList.taskListSize()+ " tasks in the list");
+        System.out.println("Now you have " + taskList.taskListSize() + " tasks in the list");
     }
 
-    public String testDeleteTask(int idx, TaskList taskList){
+    public String testDeleteTask(int idx, TaskList taskList) {
         return taskList.getTask(idx);
     }
 
@@ -55,7 +55,7 @@ public class UI {
                 + taskList.getTask(idx)
         );
         System.out.println("__________________________________________________");
-        System.out.println("Now you have "+taskList.taskListSize()+" tasks in the list");
+        System.out.println("Now you have " + taskList.taskListSize() + " tasks in the list");
     }
 
     public void markTask(TaskList taskList, boolean done, int index) {

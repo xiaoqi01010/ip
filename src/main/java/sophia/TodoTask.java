@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public final class TodoTask extends Task {
 
-    public TodoTask(String input){
+    public TodoTask(String input) {
         super(input);
     }
 
@@ -22,7 +22,7 @@ public final class TodoTask extends Task {
      * String representation of TodoTask
      * **/
     @Override
-    public String toString(){
+    public String toString() {
         return "[T]" + super.toString();
     }
 }

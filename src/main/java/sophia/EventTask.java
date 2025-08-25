@@ -20,7 +20,7 @@ public final class EventTask extends Task {
      * @param startDate the event start date (expected format: yyyy-MM-dd or free text)
      * @param endDate   the event end date (expected format: yyyy-MM-dd or free text)
      */
-    public EventTask(String input, String startDate, String endDate){
+    public EventTask(String input, String startDate, String endDate) {
         super(input);
         this.startDate = startDate;
         this.endDate = endDate;
@@ -37,7 +37,11 @@ public final class EventTask extends Task {
      */
     @Override
     public void write(BufferedWriter bw) throws IOException {
-        bw.write("E | " + (isDone()? 1:0) + " | " + getName() + " | " + parseDate(startDate) + " | " + parseDate(endDate) + "\n");
+        bw.write("E | " + (isDone() ? 1 : 0)
+                + " | " + getName()
+                + " | " + parseDate(startDate)
+                + " | " + parseDate(endDate)
+                + "\n");
         bw.flush();
     }
 
@@ -48,7 +52,10 @@ public final class EventTask extends Task {
      * @return formatted string with description and dates
      */
     @Override
-    public String toString(){
-        return "[E]" + super.toString() + " (from: " + parseDate(startDate) + " to: " + parseDate(endDate) + ")";
+    public String toString() {
+        return "[E]" + super.toString()
+                + " (from: " + parseDate(startDate)
+                + " to: " + parseDate(endDate)
+                + ")";
     }
 }

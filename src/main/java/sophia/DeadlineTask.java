@@ -19,7 +19,7 @@ public final class DeadlineTask extends Task {
      * @param input the task description
      * @param ddl   the deadline date (expected format: yyyy-MM-dd or free text)
      */
-    public DeadlineTask(String input, String ddl){
+    public DeadlineTask(String input, String ddl) {
         super(input);
         this.ddl = ddl;
     }
@@ -45,7 +45,7 @@ public final class DeadlineTask extends Task {
      * @return formatted string with description and deadline
      */
     @Override
-    public String toString(){
+    public String toString() {
         return "[D]" + super.toString() + " (by: " + parseDate(ddl) + ")";
     }
 }
