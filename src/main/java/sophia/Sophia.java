@@ -34,8 +34,8 @@ public class Sophia {
         if(!Parser.validateListInput(input)) {
             throw new SophiaException("Usage: list");
         }
-        System.out.println(ui.printLine());
-        System.out.println(ui.printList(taskList));
+        ui.printLine();
+        ui.printList(taskList);
     }
 
     //public for testing
@@ -79,8 +79,8 @@ public class Sophia {
         }
 
         taskList.addTask(new_task);
-        System.out.println(ui.printLine());
-        System.out.println(ui.addTask(new_task, taskList));
+        ui.printLine();
+        ui.addTask(new_task, taskList);
     }
 
     private void handleTask(String userInputs, boolean done) throws SophiaException {
@@ -100,16 +100,16 @@ public class Sophia {
         }
 
         taskList.setDone(index, done);
-        System.out.println(ui.printLine());
-        System.out.println(ui.markTask(taskList, done, index));
+        ui.printLine();
+        ui.markTask(taskList, done, index);
     }
 
     private void handleBye(String input) throws SophiaException {
         if(!Parser.validateByeInput(input)) {
             throw new SophiaException("Usage: bye");
         }
-        System.out.println(ui.printLine());
-        System.out.println(ui.exit());
+        ui.printLine();
+        ui.exit();
         exit(0);
     }
 
@@ -124,10 +124,13 @@ public class Sophia {
             throw new SophiaException(e.getMessage());
         }
 
-        System.out.println(ui.printLine());
-        System.out.println(ui.saved());
+        ui.printLine();
+        ui.saved();
     }
 
+    public String showTasks() {
+        return taskList.toString();
+    }
 
     private void findTask(String input) throws SophiaException {
         if(!Parser.validateFindInput(input)) {
@@ -135,11 +138,11 @@ public class Sophia {
         }
         String keyword = input.split(" ")[1].trim();
         List<Task> xs = taskList.findTask(keyword);
-        System.out.println(ui.printLine());
-        System.out.println(ui.printTasksFound(xs));
+        ui.printLine();
+        ui.printTasksFound(xs);
     }
 
-    private void deleteTask(String input) throws SophiaException {
+    public void deleteTask(String input) throws SophiaException {
         if(!Parser.validateDeleteInput(input)) {
             throw new SophiaException("Usage: delete <index>");
         }
@@ -150,16 +153,16 @@ public class Sophia {
         }
 
         taskList.removeTask(index);
-        System.out.println(ui.deleteTask(index, taskList));
+        ui.deleteTask(index, taskList);
     }
 
     private void run() throws SophiaException {
-        System.out.println(ui.introduction(NAME));
+        ui.introduction(NAME);
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
             if(!scanner.hasNextLine()) {
-                System.out.println("Please enter a command");
+                ui.printEmptyMessage();
             }
 
             String input = scanner.nextLine().trim();
@@ -190,7 +193,7 @@ public class Sophia {
                     default -> throw new SophiaException("Invalid Command: " + cmd);
                 }
             } catch (SophiaException e) {
-                System.out.println(ui.showError(e));
+                ui.showError(e);
             }
 
         }

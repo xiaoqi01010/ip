@@ -1,5 +1,5 @@
 package sophia;
-
+import org.junit.jupiter.api.Test;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +8,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestSophiaList {
+    @Test
     public void TestDelete() throws SophiaException, IOException {
         File file = new File("./data/test_storage.txt");
         if(!file.exists())file.createNewFile();
@@ -19,6 +20,8 @@ public class TestSophiaList {
         """);
         br.flush();
         Sophia sophia = new Sophia(file.getPath());
-        assertEquals(sophia.testDeleteTask("delete 1"),"[T][ ] read");
+        sophia.deleteTask("delete 2");
+        sophia.deleteTask("delete 3");
+        assertEquals(sophia.showTasks(),"1. [T][ ] read");
     }
 }
