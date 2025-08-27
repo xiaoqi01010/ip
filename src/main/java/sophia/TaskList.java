@@ -8,20 +8,7 @@ import java.util.List;
 public class TaskList {
     private final List<Task> tasks = new ArrayList<>();
 
-    /**
-     * Return a list of Tasks with keywords including key
-     * @param key which is the keyword
-     * @return a list of tasks
-     */
-    public List<Task> findTask(String key) {
-        List<Task> result = new ArrayList<>();
-        for(Task task : tasks) {
-            if(task.getName().contains(key)) {
-                result.add(task);
-            }
-        }
-        return result;
-    }
+    public TaskList() {}
     /**
      * Constructor of TaskList
      * <p>
@@ -29,6 +16,21 @@ public class TaskList {
      */
     public TaskList(List<Task> xs) throws FileNotFoundException {
         tasks.addAll(xs);
+    }
+
+    /**
+     * Return a list of Tasks with keywords including key
+     * @param key which is the keyword
+     * @return a list of tasks
+     */
+    public List<Task> findTask(String key) {
+        List<Task> result = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getName().contains(key)) {
+                result.add(task);
+            }
+        }
+        return result;
     }
 
     /**
@@ -42,18 +44,17 @@ public class TaskList {
             task.write(bw);
         }
     }
-    /**
-     * Default Constructor
-     */
-    public TaskList() {}
 
     /**
      * iterate through every task to print the information of every task
      */
     public String printList() {
         StringBuilder str = new StringBuilder();
-        for(int i = 0; i < tasks.size(); i++) {
+        for (int i = 0; i < tasks.size(); i++) {
             str.append((i + 1)).append(". ").append(tasks.get(i).toString());
+            if (i != tasks.size() - 1) {
+                str.append("\n");
+            }
         }
         return str.toString();
     }
@@ -66,7 +67,7 @@ public class TaskList {
         return this.tasks.size();
     }
 
-    public void setDone(int index,boolean done) {
+    public void setDone(int index, boolean done) {
         this.tasks.get(index).setDone(done);
     }
 

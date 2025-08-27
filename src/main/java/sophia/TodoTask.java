@@ -15,7 +15,7 @@ public final class TodoTask extends Task {
      */
     @Override
     public void write(BufferedWriter bw) throws IOException {
-        bw.write("T | " + (isDone()? 1:0) + " | " + getName() + "\n");
+        bw.write("T | " + (isDone() ? 1 : 0) + " | " + getName() + "\n");
         bw.flush();
     }
     /**

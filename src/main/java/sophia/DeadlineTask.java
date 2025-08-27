@@ -34,7 +34,7 @@ public final class DeadlineTask extends Task {
      */
     @Override
     public void write(BufferedWriter bw) throws IOException {
-        bw.write("D | " + (isDone()? 1:0) + " | "
+        bw.write("D | " + (isDone() ? 1 : 0) + " | "
                 + getName() + " | " + parseDate(ddl) + "\n");
         bw.flush();
     }
