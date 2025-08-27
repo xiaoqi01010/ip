@@ -1,10 +1,15 @@
 package sophia;
-import sophia.DeadlineTask;
-import sophia.EventTask;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 public class Storage {
     private final String file_path;
@@ -44,20 +49,20 @@ public class Storage {
 
         reader.lines().forEach(line -> {
             String[] t = line.split("\\|");
-            for(int i = 0; i < t.length; i++) {
+            for (int i = 0; i < t.length; i++) {
                 t[i] = t[i].trim();
             }
 
-            if(Objects.equals(t[0], "T")) {
+            if (Objects.equals(t[0], "T")) {
                 Task temp = new TodoTask(t[2]);
                 temp.setDone(t[1].equals("1"));
                 tasks.add(temp);
-            } else if(Objects.equals(t[0], "D")) {
-                Task temp = new DeadlineTask(t[2],t[3]);
+            } else if (Objects.equals(t[0], "D")) {
+                Task temp = new DeadlineTask(t[2], t[3]);
                 temp.setDone(t[1].equals("1"));
                 tasks.add(temp);
-            } else if(Objects.equals(t[0], "E")) {
-                Task temp = new EventTask(t[2],t[3],t[4]);
+            } else if (Objects.equals(t[0], "E")) {
+                Task temp = new EventTask(t[2], t[3], t[4]);
                 temp.setDone(t[1].equals("1"));
                 tasks.add(temp);
             }

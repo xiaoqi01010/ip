@@ -1,4 +1,6 @@
+
 package sophia;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -44,7 +46,7 @@ public abstract class Task {
      * @return a formatted date string, or the original string if it is not in {@code yyyy-MM-dd} format
      */
     public String parseDate(String date) {
-        if(!validateDateFormat(date)) {
+        if (!validateDateFormat(date)) {
             return date;
         }
         LocalDate localDate = LocalDate.parse(
@@ -86,9 +88,9 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        if(this.isCompleted) {
+        if (this.isCompleted) {
             return "[X] " + this.name;
-        }else {
+        } else {
             return "[ ] " + this.name;
         }
     }

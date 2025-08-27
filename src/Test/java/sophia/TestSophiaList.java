@@ -21,7 +21,9 @@ public class TestSophiaList {
         br.flush();
         Sophia sophia = new Sophia(file.getPath());
         sophia.deleteTask("delete 2");
-        sophia.deleteTask("delete 3");
-        assertEquals(sophia.showTasks(),"1. [T][ ] read");
+        //System.out.println(sophia.showTasks());
+        sophia.deleteTask("delete 2");
+
+        assertEquals("1. [T][ ] read",sophia.showTasks());
     }
 }

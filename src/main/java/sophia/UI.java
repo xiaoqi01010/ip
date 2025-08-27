@@ -1,14 +1,14 @@
 package sophia;
 
 import java.util.List;
-import java.util.regex.Pattern;
+
 
 public class UI {
     /**
      * Print a line to separate previous output
      */
-    public String printLine() {
-        return "__________________________________________________";
+    public void printLine() {
+        System.out.println("__________________________________________________");
     }
 
     /**
@@ -31,13 +31,14 @@ public class UI {
      * @param taskList which is a wrapper class of the list of tasks
      */
     public void printList(TaskList taskList) {
-        System.out.println(taskList.printList());   // delegates directly
+        // delegates directly
+        System.out.println(taskList.printList());
     }
 
     /**
      * UI for adding task to list of tasks
      * @param new_task specifying a new task to be added
-     * @param taskList is a wrapper class for List<Task>
+     * @param taskList is a wrapper class for list of tasks
      */
     public void addTask(Task new_task, TaskList taskList) {
         System.out.println("Got it. I've added this task: "
@@ -50,13 +51,14 @@ public class UI {
     /**
      * UI for deletion of task
      * @param idx which is index of task to be deleted
-     * @param taskList which is the wrapper class of List<Task>
+     * @param taskList which is the wrapper class of list of tasks
      */
     public void deleteTask(int idx, TaskList taskList) {
         System.out.println("Got it. I've deleted this task: "
                 + taskList.getTask(idx)
-                + "\n" + printLine()
-                + "\nNow you have "
+                + "\n");
+        printLine();
+        System.out.println("Now you have "
                 + taskList.taskListSize()
                 + " tasks in the list");
     }
@@ -65,6 +67,7 @@ public class UI {
         StringBuilder str = new StringBuilder();
         for (int j = 0; j < taskList.size(); j++) {
             str.append((j + 1)).append(". ").append(taskList.get(j));
+            str.append("\n");
         }
         System.out.println(str.toString());
     }
