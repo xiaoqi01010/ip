@@ -50,10 +50,12 @@ public class TaskList {
     /**
      * iterate through every task to print the information of every task
      */
-    public void printList() {
+    public String printList() {
+        StringBuilder str = new StringBuilder();
         for(int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i).toString());
+            str.append((i + 1)).append(". ").append(tasks.get(i).toString());
         }
+        return str.toString();
     }
 
     public void addTask(Task task) {

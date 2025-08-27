@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public abstract class Task {
     private final String name;
-    private boolean done = false;
+    private boolean isCompleted = false;
     /**
      * Constructs a {@code Task} with the given name.
      *
@@ -44,8 +44,13 @@ public abstract class Task {
      * @return a formatted date string, or the original string if it is not in {@code yyyy-MM-dd} format
      */
     public String parseDate(String date) {
-        if(!validateDateFormat(date)) {return date;}
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        if(!validateDateFormat(date)) {
+            return date;
+        }
+        LocalDate localDate = LocalDate.parse(
+                date,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        );
         return localDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
     }
 
@@ -81,7 +86,7 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        if(this.done) {
+        if(this.isCompleted) {
             return "[X] " + this.name;
         }else {
             return "[ ] " + this.name;
@@ -94,7 +99,7 @@ public abstract class Task {
      * @param done {@code true} if the task is completed, {@code false} otherwise
      */
     public void setDone(boolean done) {
-        this.done = done;
+        this.isCompleted = done;
     }
 
     /**
@@ -103,7 +108,7 @@ public abstract class Task {
      * @return {@code true} if the task is completed, {@code false} otherwise
      */
     public boolean isDone() {
-        return this.done;
+        return this.isCompleted;
     }
 
 }

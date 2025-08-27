@@ -1,5 +1,4 @@
 package sophia;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -11,7 +10,8 @@ import java.io.IOException;
  * </p>
  */
 public final class EventTask extends Task {
-    private String startDate,endDate;
+    private final String startDate;
+    private final String endDate;
 
     /**
      * Constructs a new {@code EventTask}.
