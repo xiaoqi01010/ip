@@ -12,9 +12,9 @@ import static java.lang.System.exit;
 //used ChatGpt for quality check of code
 public class Sophia {
     //Keep a list of internal tasks
+    private static final UI ui = new UI();
     private static final String NAME = "Sophia";
     private final TaskList taskList;
-    private final UI ui;
     private final Storage storage;
     /**
      * Returns a Sophia Object which performs the chatting
@@ -23,7 +23,6 @@ public class Sophia {
      */
     public Sophia(String filePath) {
         TaskList taskList1;
-        ui = new UI();
         storage = new Storage(filePath);
         try {
             taskList1 = new TaskList(storage.load());
@@ -164,53 +163,51 @@ public class Sophia {
         taskList.removeTask(index);
     }
 
-    private void run() throws SophiaException {
-        ui.introduction(NAME);
-        Scanner scanner = new Scanner(System.in);
+    private void run(String input) throws SophiaException {
+        String[] userInputs = input.split("\\s+", 2);
+        String cmd = userInputs[0];
 
-        while (true) {
-            if (!scanner.hasNextLine()) {
-                ui.printEmptyMessage();
-            }
+        TaskType type = Arrays.stream(TaskType.values())
+                .filter(t -> t.keyword.equals(cmd))
+                .findFirst()
+                .orElse(null);
 
-            String input = scanner.nextLine().trim();
-            String[] userInputs = input.split("\\s+", 2);
-            String cmd = userInputs[0];
-
-            TaskType type = Arrays.stream(TaskType.values())
-                    .filter(t -> t.keyword.equals(cmd))
-                    .findFirst()
-                    .orElse(null);
-
-            if (type == null) {
-                throw new SophiaException("Invalid command: " + cmd);
-            }
-
-            try {
-                switch (type) {
-                case BYE -> handleBye(input);
-                case LIST -> printList(input);
-                case MARK -> handleTask(input, true);
-                case UNMARK -> handleTask(input, false);
-                case TODO -> addTask(input, TaskType.TODO);
-                case EVENT -> addTask(input, TaskType.EVENT);
-                case DEADLINE -> addTask(input, TaskType.DEADLINE);
-                case DELETE -> deleteTask(input);
-                case SAVE -> saveTasks(input);
-                case FIND -> findTask(input);
-                default -> throw new SophiaException("Invalid Command: " + cmd);
-                }
-            } catch (SophiaException e) {
-                ui.showError(e);
-            }
-
+        if (type == null) {
+            throw new SophiaException("Invalid command: " + cmd);
         }
-        //scanner.close();
+
+        try {
+            switch (type) {
+            case BYE -> handleBye(input);
+            case LIST -> printList(input);
+            case MARK -> handleTask(input, true);
+            case UNMARK -> handleTask(input, false);
+            case TODO -> addTask(input, TaskType.TODO);
+            case EVENT -> addTask(input, TaskType.EVENT);
+            case DEADLINE -> addTask(input, TaskType.DEADLINE);
+            case DELETE -> deleteTask(input);
+            case SAVE -> saveTasks(input);
+            case FIND -> findTask(input);
+            default -> throw new SophiaException("Invalid Command: " + cmd);
+            }
+        } catch (SophiaException e) {
+            ui.showError(e);
+        }
     }
 
     public static void main(String[] args) {
         try {
-            new Sophia("./data/test.txt").run();
+            Scanner scanner = new Scanner(System.in);
+            Sophia sophia = new Sophia("./data/test.txt");
+            ui.introduction(NAME);
+            while (true) {
+                if (!scanner.hasNextLine()) {
+                    ui.printEmptyMessage();
+                }
+                String input = scanner.nextLine().trim();
+                sophia.run(input);
+            }
+
         } catch (SophiaException e) {
             System.out.println(e.getMessage());
         }

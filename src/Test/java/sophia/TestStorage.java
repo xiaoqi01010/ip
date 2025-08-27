@@ -18,10 +18,10 @@ public class TestStorage {
         }
         BufferedWriter br = new BufferedWriter(new FileWriter(file));
         br.write("""
-        T | 0 | read 
-        D | 0 | return books | 2025-09-23
-        E | 1 | group meeting | 2025-08-23 | 2025-08-24
-        """);
+            T | 0 | read 
+            D | 0 | return books | 2025-09-23
+            E | 1 | group meeting | 2025-08-23 | 2025-08-24
+            """);
         br.flush();
         System.out.println(file.getPath());
         Storage storage = new Storage(file.getPath());
