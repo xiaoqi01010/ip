@@ -20,12 +20,14 @@ public class Storage {
     public void save(TaskList tasklist) throws IOException {
         File file = new File(file_path);
         File parentDirectory = file.getParentFile();
+
         if (!parentDirectory.exists()) {
             parentDirectory.mkdir();
         }
         if (!file.exists()) {
             file.createNewFile();
         }
+
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         tasklist.write(bw);
@@ -39,12 +41,13 @@ public class Storage {
         List<Task> tasks = new ArrayList<>();
         File file = new File(file_path);
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        //System.out.println("HERE");
+
         reader.lines().forEach(line -> {
-            //System.out.println("OUTPUT: ==> " + line);
             String[] t = line.split("\\|");
-            for(int i = 0; i < t.length; i++) { t[i] = t[i].trim(); }
-            //System.out.println(Arrays.toString(t));
+            for(int i = 0; i < t.length; i++) {
+                t[i] = t[i].trim();
+            }
+
             if(Objects.equals(t[0], "T")) {
                 Task temp = new TodoTask(t[2]);
                 temp.setDone(t[1].equals("1"));
@@ -58,8 +61,9 @@ public class Storage {
                 temp.setDone(t[1].equals("1"));
                 tasks.add(temp);
             }
+
         });
-        //System.out.println(tasks.toString());
+
         return tasks;
     }
 }

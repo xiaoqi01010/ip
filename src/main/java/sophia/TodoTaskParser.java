@@ -15,7 +15,9 @@ public class TodoTaskParser implements Parser {
      */
     @Override
     public Task parse() throws SophiaException {
-        if(this.arguments.isBlank()) throw new SophiaException("Usage: todo <description>");
+        if(this.arguments.isBlank()) {
+            throw new SophiaException("Usage: todo <description>");
+        }
         return new TodoTask(this.arguments.trim());
     }
 }

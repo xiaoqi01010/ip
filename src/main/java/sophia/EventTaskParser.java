@@ -14,7 +14,7 @@ package sophia;
  * </pre>
  */
 public class EventTaskParser implements Parser {
-    String arguments;
+    private final String argument;
 
     /**
      * Constructs an {@code EventTaskParser} with the given arguments.
@@ -22,7 +22,7 @@ public class EventTaskParser implements Parser {
      * @param arguments the raw input string excluding the 'event' keyword
      */
     public EventTaskParser(String arguments) {
-        this.arguments = arguments;
+        this.argument = arguments;
     }
 
     /**
@@ -33,7 +33,7 @@ public class EventTaskParser implements Parser {
      */
     @Override
     public Task parse() throws SophiaException {
-        String[] task_info = this.arguments.split("/");
+        String[] task_info = this.argument.split("/");
         String from = task_info[task_info.length - 2].split("from ")[1].trim();
         String to = task_info[task_info.length - 1].split("to ")[1].trim();
         return new EventTask(task_info[0].trim(),from,to);

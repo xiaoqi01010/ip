@@ -1,5 +1,4 @@
 package sophia;
-
 import java.util.regex.Pattern;
 /**
  * Represents a parser interface for interpreting user input into {@link Task} objects.
@@ -96,7 +95,8 @@ public interface Parser {
      * @return {@code true} if valid, {@code false} otherwise
      */
     public static boolean validateEventInput(String str) {
-        return validateInput(str, Pattern.compile("^event\\s+.+\\s+/from\\s+.+\\s+/to\\s+.+$"));
+        return validateInput(str,
+                Pattern.compile("^event\\s+.+\\s+/from\\s+.+\\s+/to\\s+.+$"));
     }
 
     /**

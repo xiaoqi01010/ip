@@ -1,13 +1,8 @@
 package sophia;
-import sophia.DeadlineTaskParser;
-import sophia.EventTaskParser;
-import sophia.Parser;
-import sophia.SophiaException;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Arrays;
-
 import static java.lang.System.exit;
 
 //used ChatGpt for quality check of code
@@ -29,40 +24,48 @@ public class Sophia {
         try {
             taskList1 = new TaskList(storage.load());
         } catch (FileNotFoundException e) {
-            ui.showError(e);
+            System.out.println(ui.showError(e));
             taskList1 = new TaskList();
         }
         this.taskList = taskList1;
     }
 
     private void printList(String input) throws SophiaException {
-        if(!Parser.validateListInput(input)) throw new SophiaException("Usage: list");
-        ui.printLine();
-        ui.printList(taskList);
+        if(!Parser.validateListInput(input)) {
+            throw new SophiaException("Usage: list");
+        }
+        System.out.println(ui.printLine());
+        System.out.println(ui.printList(taskList));
     }
 
     //public for testing
     private Task addTodo(String input, String description) throws SophiaException {
-        if(!Parser.validateTodoInput(input)) throw new SophiaException("todo <description>");
+        if(!Parser.validateTodoInput(input)) {
+            throw new SophiaException("todo <description>");
+        }
         TodoTaskParser parser = new TodoTaskParser(description);
         return parser.parse();
     }
 
     //public for testing
     private Task addDeadline(String input, String description) throws SophiaException {
-        if(!Parser.validateDeadlineInput(input)) throw new SophiaException("deadline <description> /by <date>");
+        if(!Parser.validateDeadlineInput(input)) {
+            throw new SophiaException("deadline <description> /by <date>");
+        }
         DeadlineTaskParser parser = new DeadlineTaskParser(description);
         return parser.parse();
     }
 
     //public for testing
     private Task addEvent(String input, String description) throws SophiaException {
-       if(!Parser.validateEventInput(input)) throw new SophiaException("event <description> /from <date> /to <date>");
+       if(!Parser.validateEventInput(input)) {
+           throw new SophiaException("event <description> /from <date> /to <date>");
+       }
        EventTaskParser parser = new EventTaskParser(description);
        return parser.parse();
     }
 
-    private void addTask(String input,TaskType Type) throws SophiaException {
+    private void addTask(String input, TaskType Type) throws SophiaException {
         Task new_task;
         String[] segments =  input.split(" ");
         String description = String.join(" ",
@@ -72,95 +75,95 @@ public class Sophia {
             case TODO ->  new_task = addTodo(input, description);
             case DEADLINE -> new_task = addDeadline(input, description);
             case EVENT -> new_task = addEvent(input, description);
-            default -> {
-                throw new SophiaException("Invalid Type of command");
-            }
+            default -> throw new SophiaException("Invalid Type of command");
         }
+
         taskList.addTask(new_task);
-        ui.printLine();
-        ui.addTask(new_task,taskList);
+        System.out.println(ui.printLine());
+        System.out.println(ui.addTask(new_task, taskList));
     }
 
     private void handleTask(String userInputs, boolean done) throws SophiaException {
-
-        if(!Parser.validateMarkInput(userInputs) && !Parser.validateUnmarkInput(userInputs) ) {
-            if(done) throw new SophiaException("Usage: mark <index>");
-            else throw new SophiaException("Usage: unmark <index>");
+        if(!Parser.validateMarkInput(userInputs)
+                && !Parser.validateUnmarkInput(userInputs) ) {
+            if(done) {
+                throw new SophiaException("Usage: mark <index>");
+            }
+            else {
+                throw new SophiaException("Usage: unmark <index>");
+            }
         }
 
         int index = Integer.parseInt(userInputs.split(" ")[1])-1;
-
         if (index < 0 || index >= taskList.taskListSize()) {
             throw new SophiaException("No such task exists!");
         }
 
-        taskList.setDone(index,done);
-        ui.printLine();
-        ui.markTask(taskList, done, index);
+        taskList.setDone(index, done);
+        System.out.println(ui.printLine());
+        System.out.println(ui.markTask(taskList, done, index));
     }
 
     private void handleBye(String input) throws SophiaException {
-        if(!Parser.validateByeInput(input)) throw new SophiaException("Usage: bye");
-        ui.printLine();
-        ui.exit();
+        if(!Parser.validateByeInput(input)) {
+            throw new SophiaException("Usage: bye");
+        }
+        System.out.println(ui.printLine());
+        System.out.println(ui.exit());
         exit(0);
     }
 
     private void saveTasks(String input) throws SophiaException {
-        if(!Parser.validateSaveInput(input)) throw new SophiaException("Usage: save");
+        if(!Parser.validateSaveInput(input)) {
+            throw new SophiaException("Usage: save");
+        }
+
         try{
             storage.save(taskList);
         }catch(Exception e) {
             throw new SophiaException(e.getMessage());
         }
-        ui.printLine();
-        ui.saved();
+
+        System.out.println(ui.printLine());
+        System.out.println(ui.saved());
     }
 
-    public String testDeleteTask(String input) throws SophiaException {
-        if(!Parser.validateDeleteInput(input)) {
-            throw new SophiaException("Usage: delete <index>");
-        }
-        int index = Integer.parseInt(input.split(" ")[1])-1;
-        if (index < 0 || index >= taskList.taskListSize()) {
-            System.out.println("No such task exists!");
-            return "Error";
-        }
-        taskList.removeTask(index);
-        return ui.testDeleteTask(index,taskList);
-    }
 
     private void findTask(String input) throws SophiaException {
-        if(!Parser.validateFindInput(input)) throw new SophiaException("Usage: find <keyword>");
+        if(!Parser.validateFindInput(input)) {
+            throw new SophiaException("Usage: find <keyword>");
+        }
         String keyword = input.split(" ")[1].trim();
         List<Task> xs = taskList.findTask(keyword);
-        ui.printLine();
-        ui.printTasksFound(xs);
+        System.out.println(ui.printLine());
+        System.out.println(ui.printTasksFound(xs));
     }
 
     private void deleteTask(String input) throws SophiaException {
         if(!Parser.validateDeleteInput(input)) {
             throw new SophiaException("Usage: delete <index>");
         }
+
         int index = Integer.parseInt(input.split(" ")[1])-1;
         if (index < 0 || index >= taskList.taskListSize()) {
-            System.out.println("No such task exists!");
-            return;
+            throw new SophiaException("No such task exists!");
         }
+
         taskList.removeTask(index);
-        ui.deleteTask(index,taskList);
+        System.out.println(ui.deleteTask(index, taskList));
     }
 
     private void run() throws SophiaException {
-        ui.introduction(NAME);
+        System.out.println(ui.introduction(NAME));
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
             if(!scanner.hasNextLine()) {
                 System.out.println("Please enter a command");
             }
+
             String input = scanner.nextLine().trim();
-            String[] userInputs = input.split("\\s+",2);
+            String[] userInputs = input.split("\\s+", 2);
             String cmd = userInputs[0];
 
             TaskType type = Arrays.stream(TaskType.values())
@@ -171,6 +174,7 @@ public class Sophia {
             if(type == null) {
                 throw new SophiaException("Invalid command: " + cmd);
             }
+
             try {
                 switch (type) {
                     case BYE -> handleBye(input);
@@ -183,11 +187,12 @@ public class Sophia {
                     case DELETE -> deleteTask(input);
                     case SAVE -> saveTasks(input);
                     case FIND -> findTask(input);
-                    default -> System.out.println("Invalid Command: " + cmd);
+                    default -> throw new SophiaException("Invalid Command: " + cmd);
                 }
             } catch (SophiaException e) {
-                ui.showError(e);
+                System.out.println(ui.showError(e));
             }
+
         }
         //scanner.close();
     }

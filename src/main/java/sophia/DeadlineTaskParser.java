@@ -14,15 +14,15 @@ package sophia;
  * </pre>
  */
 public class DeadlineTaskParser implements Parser {
-    String arguments;
+    private final String argument;
 
     /**
      * Constructs a {@code DeadlineTaskParser} with the given arguments.
      *
-     * @param arguments the raw input string excluding the 'deadline' keyword
+     * @param argument the raw input string excluding the 'deadline' keyword
      */
-    public DeadlineTaskParser(String arguments) {
-        this.arguments = arguments;
+    public DeadlineTaskParser(String argument) {
+        this.argument = argument;
     }
 
     /**
@@ -33,7 +33,7 @@ public class DeadlineTaskParser implements Parser {
      */
     @Override
     public Task parse() throws SophiaException {
-        String[] task_info = this.arguments.split("/by ");
+        String[] task_info = this.argument.split("/by ");
         return new DeadlineTask(task_info[0].trim(),task_info[task_info.length - 1].trim());
     }
 }
