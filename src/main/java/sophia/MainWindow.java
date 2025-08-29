@@ -9,7 +9,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import static java.lang.System.exit;
-import static javafx.application.Application.launch;
 
 /**
  * Controller for the main GUI.
