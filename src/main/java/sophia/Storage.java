@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * Store Tasks in a file path
+ */
 public class Storage {
     private final String file_path;
     /**
@@ -22,6 +24,11 @@ public class Storage {
         this.file_path = file_path;
     }
 
+    /**
+     * Save string representations of tasks to file
+     * @param tasklist
+     * @throws IOException
+     */
     public void save(TaskList tasklist) throws IOException {
         File file = new File(file_path);
         File parentDirectory = file.getParentFile();
