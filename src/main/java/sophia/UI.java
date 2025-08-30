@@ -57,7 +57,7 @@ public class UI {
                 + taskList.getTask(idx)
                 + "\n"
                 + "Now you have "
-                + taskList.taskListSize()
+                + (taskList.taskListSize() - 1)
                 + " tasks in the list";
     }
 

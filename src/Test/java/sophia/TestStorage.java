@@ -35,7 +35,7 @@ public class TestStorage {
         t.setDone(true);
         ys.add(t);
         //System.out.println(ys);
-        assertEquals(ys.toString(),xs.toString());
+        assertEquals(ys.toString(), xs.toString());
     }
 
     @Test
