@@ -59,7 +59,7 @@ public class UI {
                 + "\n");
         printLine();
         System.out.println("Now you have "
-                + taskList.taskListSize()
+                + (taskList.taskListSize() - 1)
                 + " tasks in the list");
     }
 
