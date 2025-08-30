@@ -1,5 +1,8 @@
 package sophia;
 
+/**
+ * Parse the arguments given in fixed format
+ */
 public class TodoTaskParser implements Parser {
     private String argument;
     public TodoTaskParser(String argument) {

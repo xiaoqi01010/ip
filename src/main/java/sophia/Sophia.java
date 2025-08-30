@@ -92,8 +92,7 @@ public class Sophia {
                 && !Parser.validateUnmarkInput(userInputs) ) {
             if (done) {
                 throw new SophiaException("Usage: mark <index>");
-            }
-            else {
+            } else {
                 throw new SophiaException("Usage: unmark <index>");
             }
         }

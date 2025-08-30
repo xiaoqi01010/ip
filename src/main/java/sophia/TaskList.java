@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contain a list of tasks
+ */
 public class TaskList {
     private final List<Task> tasks = new ArrayList<>();
 

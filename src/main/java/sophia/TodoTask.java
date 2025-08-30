@@ -2,6 +2,9 @@ package sophia;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+/**
+ * Contains information of what to do in task
+ */
 public final class TodoTask extends Task {
 
     public TodoTask(String input) {
