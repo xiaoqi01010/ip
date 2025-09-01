@@ -11,14 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Test methods in storage
- */
 public class TestStorage {
-    /**
-     * Test if storage can read tasks successfully from file
-     * @throws IOException
-     */
     @Test
     public void testStorage() throws IOException {
         File file = new File("./data/test_storage.txt");
