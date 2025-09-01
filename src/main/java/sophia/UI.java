@@ -7,32 +7,32 @@ public class UI {
     /**
      * Print a line to separate previous output
      */
-    public void printLine() {
-        System.out.println("__________________________________________________");
+    public String printLine() {
+        return "__________________________________________________";
     }
 
     /**
      * Shows the error message
      * @param e indicates the error message
      */
-    public void showError(Exception e) {
-        System.out.println(e.getMessage());
+    public String showError(Exception e) {
+        return e.getMessage();
     }
 
-    public void printEmptyMessage() {
-        System.out.println("Please enter a command");
+    public String printEmptyMessage() {
+        return "Please enter a command";
     }
-    public void exit() {
-        System.out.println("Bye. Hope to see you again soon!");
+    public String exit() {
+        return "Bye. Hope to see you again soon!";
     }
 
     /**
      * Prints all tasks
      * @param taskList which is a wrapper class of the list of tasks
      */
-    public void printList(TaskList taskList) {
+    public String printList(TaskList taskList) {
         // delegates directly
-        System.out.println(taskList.printList());
+        return taskList.printList();
     }
 
     /**
@@ -40,12 +40,11 @@ public class UI {
      * @param new_task specifying a new task to be added
      * @param taskList is a wrapper class for list of tasks
      */
-    public void addTask(Task new_task, TaskList taskList) {
-        System.out.println("Got it. I've added this task: "
-                + "\n" + new_task
+    public String addTask(Task new_task, TaskList taskList) {
+        return "Got it. I've added this task: "
+                + "\n" + new_task + "\n"
                 + "Now you have " + taskList.taskListSize()
-                + " tasks in the list"
-        );
+                + " tasks in the list";
     }
 
     /**
@@ -53,43 +52,40 @@ public class UI {
      * @param idx which is index of task to be deleted
      * @param taskList which is the wrapper class of list of tasks
      */
-    public void deleteTask(int idx, TaskList taskList) {
-        System.out.println("Got it. I've deleted this task: "
+    public String deleteTask(int idx, TaskList taskList) {
+        return "Got it. I've deleted this task: "
                 + taskList.getTask(idx)
-                + "\n");
-        printLine();
-        System.out.println("Now you have "
+                + "\n"
+                + "Now you have "
                 + (taskList.taskListSize() - 1)
-                + " tasks in the list");
+                + " tasks in the list";
     }
 
-    public void printTasksFound(List<Task> taskList) {
+    public String printTasksFound(List<Task> taskList) {
         StringBuilder str = new StringBuilder();
         for (int j = 0; j < taskList.size(); j++) {
             str.append((j + 1)).append(". ").append(taskList.get(j));
             str.append("\n");
         }
-        System.out.println(str.toString());
+        return str.toString();
     }
 
-    public void markTask(TaskList taskList, boolean done, int index) {
-        System.out.println((done
+    public String markTask(TaskList taskList, boolean done, int index) {
+        return (done
                 ? "Nice! I've marked this task as done:\n"
                 : "OK, I've marked this task as not done yet:\n")
-                + taskList.getTask(index)
-        );
+                + taskList.getTask(index);
     }
 
     /**
      * UI for introduction
      * @param name of chatbot
      */
-    public void introduction(String name) {
-        printLine();
-        System.out.println("\nHello! I'm " + name + "\nWhat can I do for you?");
+    public String introduction(String name) {
+        return "Hello! I'm " + name + "\nWhat can I do for you?";
     }
 
-    public void saved() {
-        System.out.println("Saved tasks to file");
+    public String saved() {
+        return "Saved tasks to file";
     }
 }
