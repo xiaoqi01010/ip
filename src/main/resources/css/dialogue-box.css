@@ -8,6 +8,7 @@
     -fx-border-insets: 0px 7px 0px 7px;
     -fx-background-insets: 0px 7px 0px 7px;
     -fx-text-fill: black;
+     -fx-font: 12px "Arial"
 }
 
 .reply-label {
