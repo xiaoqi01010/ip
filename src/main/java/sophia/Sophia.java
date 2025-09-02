@@ -50,7 +50,7 @@ public class Sophia {
     //public for testing
     private Task addDeadline(String input, String description) throws SophiaException {
         if (!Parser.validateDeadlineInput(input)) {
-            throw new SophiaException("deadline <description> /by <date>");
+            throw new SophiaException("deadline <description> /by <YYYY-MM-DD HH:MM> where HH:MM is optional");
         }
         DeadlineTaskParser parser = new DeadlineTaskParser(description);
         return parser.parse();
@@ -59,7 +59,8 @@ public class Sophia {
     //public for testing
     private Task addEvent(String input, String description) throws SophiaException {
         if (!Parser.validateEventInput(input)) {
-            throw new SophiaException("event <description> /from <date> /to <date>");
+            throw new SophiaException("event <description> /from <YYYY-MM-DD HH:MM> "
+                    + "/to <YYYY-MM-DD HH:MM> HH:MM are optional");
         }
         EventTaskParser parser = new EventTaskParser(description);
         return parser.parse();
