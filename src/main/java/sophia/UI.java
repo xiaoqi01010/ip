@@ -2,7 +2,10 @@ package sophia;
 
 import java.util.List;
 
-
+/**
+ * UI class responsible for all UI functions by returning formatted strings
+ */
+@SuppressWarnings("checkstyle:Regexp")
 public class UI {
     /**
      * Print a line to separate previous output
@@ -37,12 +40,12 @@ public class UI {
 
     /**
      * UI for adding task to list of tasks
-     * @param new_task specifying a new task to be added
+     * @param newTask specifying a new task to be added
      * @param taskList is a wrapper class for list of tasks
      */
-    public String addTask(Task new_task, TaskList taskList) {
+    public String addTask(Task newTask, TaskList taskList) {
         return "Got it. I've added this task: "
-                + "\n" + new_task + "\n"
+                + "\n" + newTask + "\n"
                 + "Now you have " + taskList.taskListSize()
                 + " tasks in the list";
     }
@@ -61,6 +64,9 @@ public class UI {
                 + " tasks in the list";
     }
 
+    /**
+     * Print tasks in task list which contains keyword in the description
+     */
     public String printTasksFound(List<Task> taskList) {
         StringBuilder str = new StringBuilder();
         for (int j = 0; j < taskList.size(); j++) {
@@ -70,6 +76,13 @@ public class UI {
         return str.toString();
     }
 
+    /**
+     * Mark the respective tasks as done
+     * @param taskList is a list of tasks
+     * @param done is a boolean that tells you whether it is done or not
+     * @param index is the index of a task in the taskList
+     * @return a formatted string that can be either printed or returned to the UI
+     */
     public String markTask(TaskList taskList, boolean done, int index) {
         return (done
                 ? "Nice! I've marked this task as done:\n"

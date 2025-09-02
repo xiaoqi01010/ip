@@ -8,8 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-import static java.lang.System.exit;
-
 /**
  * Controller for the main GUI.
  */
@@ -28,6 +26,9 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private Image sophiaImage = new Image(this.getClass().getResourceAsStream("/images/sophia.png"));
 
+    /**
+     * Initialise the UI on anchorpane
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -65,7 +66,7 @@ public class MainWindow extends AnchorPane {
         }
         userInput.clear();
         if (sophia.isExit()) {
-            exit(0);
+            java.lang.System.exit(0);
         }
     }
 }

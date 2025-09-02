@@ -3,22 +3,19 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import static java.lang.System.exit;
-
-
 /**
  * Main chatbot class
  */
 //used ChatGpt for quality check of code
 public class Sophia {
     //Keep a list of internal tasks
-    private boolean isExit = false;
     private static final UI ui = new UI();
     private static final String NAME = "Sophia";
+    private boolean isExit = false;
     private final TaskList taskList;
     private final Storage storage;
     /**
-     * Returns a Sophia Object which performs the chatting
+     * Returns a Sophia Object which interacts with users
      * <p>
      * @param filePath specifies a valid file path.
      */
@@ -68,21 +65,33 @@ public class Sophia {
         return parser.parse();
     }
 
-    private String addTask(String input, TaskType Type) throws SophiaException {
-        Task new_task;
+    private String addTask(String input, TaskType type) throws SophiaException {
+        Task newTask;
         String[] segments = input.split(" ");
         String description = String.join(" ",
                 Arrays.copyOfRange(input.split(" "), 1, segments.length));
 
-        switch (Type) {
-        case TODO -> new_task = addTodo(input, description);
-        case DEADLINE -> new_task = addDeadline(input, description);
-        case EVENT -> new_task = addEvent(input, description);
+        switch (type) {
+        case TODO -> {
+            newTask = addTodo(input, description);
+            assert newTask != null;
+            assert newTask instanceof TodoTask;
+        }
+        case DEADLINE -> {
+            newTask = addDeadline(input, description);
+            assert newTask != null;
+            assert newTask instanceof DeadlineTask;
+        }
+        case EVENT -> {
+            newTask = addEvent(input, description);
+            assert newTask != null;
+            assert newTask instanceof EventTask;
+        }
         default -> throw new SophiaException("Invalid Type of command");
         }
 
-        taskList.addTask(new_task);
-        return ui.addTask(new_task, taskList);
+        taskList.addTask(newTask);
+        return ui.addTask(newTask, taskList);
     }
 
     private String handleTask(String userInputs, boolean done) throws SophiaException {
@@ -116,7 +125,6 @@ public class Sophia {
         if (!Parser.validateSaveInput(input)) {
             throw new SophiaException("Usage: save");
         }
-
         try {
             storage.save(taskList);
         } catch (Exception e) {
@@ -136,19 +144,21 @@ public class Sophia {
         }
         String keyword = input.split(" ")[1].trim();
         List<Task> xs = taskList.findTask(keyword);
+        assert xs != null;
         return ui.printTasksFound(xs);
     }
 
     /**
-     * deletTask is responsible for deleting a task from taskList
-     * @param input
-     * @throws SophiaException
-     */
+     * deleteTask is responsible for deleting a task from taskList
+     * @param input specifies an input string representing a command
+     * @throws SophiaException specifies an exception that occurs when
+     *          users type invalid commands
+     * */
     public String deleteTask(String input) throws SophiaException {
         if (!Parser.validateDeleteInput(input)) {
             throw new SophiaException("Usage: delete <index>");
         }
-
+        assert taskList.taskListSize() > 0;
         int index = Integer.parseInt(input.split(" ")[1]) - 1;
         if (index < 0 || index >= taskList.taskListSize()) {
             throw new SophiaException("No such task exists!");
@@ -158,7 +168,15 @@ public class Sophia {
         return str;
     }
 
-    String run(String input) throws SophiaException {
+    /**
+     * Returns a human-readable string representing the response to a command
+     *          that a user types in
+     * @param input which represents a command input from users
+     * @return a string response that is human-readable
+     * @throws SophiaException which is an exception that occurs when command are
+     *          not formatted properly
+     */
+    public String run(String input) throws SophiaException {
         String[] userInputs = input.split("\\s+", 2);
         String cmd = userInputs[0];
 
@@ -228,7 +246,9 @@ public class Sophia {
                 }
                 String input = scanner.nextLine().trim();
                 System.out.println(sophia.run(input));
-                if (sophia.isExit) exit(0);
+                if (sophia.isExit) {
+                    java.lang.System.exit(0);
+                }
             }
         } catch (SophiaException e) {
             System.out.println(e.getMessage());
