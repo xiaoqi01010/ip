@@ -9,9 +9,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * TestStorage class contains the methods which tests functions in storage class
+ */
 public class TestStorage {
+    /**
+     * Tests if the storage class is able to read from the file specified
+     * @throws IOException
+     */
     @Test
     public void testStorage() throws IOException {
         File file = new File("./data/test_storage.txt");
@@ -20,7 +25,7 @@ public class TestStorage {
         }
         BufferedWriter br = new BufferedWriter(new FileWriter(file));
         br.write("""
-            T | 0 | read 
+            T | 0 | read
             D | 0 | return books | 2025-09-23
             E | 1 | group meeting | 2025-08-23 | 2025-08-24
             """);
@@ -35,12 +40,12 @@ public class TestStorage {
         t.setDone(true);
         ys.add(t);
         //System.out.println(ys);
-        assertEquals(ys.toString(), xs.toString());
+        org.junit.jupiter.api.Assertions.assertEquals(ys.toString(), xs.toString());
     }
 
     @Test
     public void anotherDummyTest() {
-        assertEquals(4, 4);
+        org.junit.jupiter.api.Assertions.assertEquals(4, 4);
     }
 }
 

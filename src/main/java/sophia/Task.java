@@ -1,11 +1,10 @@
-
 package sophia;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
+
 /**
  * Represents an abstract task with a name and completion status.
  * <p>
@@ -112,6 +111,4 @@ public abstract class Task {
     public boolean isDone() {
         return this.isCompleted;
     }
-
 }
-//Inner variables

@@ -20,6 +20,7 @@ public final class DeadlineTask extends Task {
      */
     public DeadlineTask(String input, String ddl) {
         super(input);
+        assert ddl != null && !ddl.isBlank();
         this.ddl = ddl;
     }
 
