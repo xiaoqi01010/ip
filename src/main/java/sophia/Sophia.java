@@ -15,7 +15,7 @@ public class Sophia {
     private final TaskList taskList;
     private final Storage storage;
     /**
-     * Returns a Sophia Object which performs the chatting
+     * Returns a Sophia Object which interacts with users
      * <p>
      * @param filePath specifies a valid file path.
      */
@@ -65,33 +65,33 @@ public class Sophia {
         return parser.parse();
     }
 
-    private String addTask(String input, TaskType Type) throws SophiaException {
-        Task new_task;
+    private String addTask(String input, TaskType type) throws SophiaException {
+        Task newTask;
         String[] segments = input.split(" ");
         String description = String.join(" ",
                 Arrays.copyOfRange(input.split(" "), 1, segments.length));
 
-        switch (Type) {
+        switch (type) {
         case TODO -> {
-            new_task = addTodo(input, description);
-            assert new_task != null;
-            assert new_task instanceof TodoTask;
+            newTask = addTodo(input, description);
+            assert newTask != null;
+            assert newTask instanceof TodoTask;
         }
         case DEADLINE -> {
-            new_task = addDeadline(input, description);
-            assert new_task != null;
-            assert new_task instanceof DeadlineTask;
+            newTask = addDeadline(input, description);
+            assert newTask != null;
+            assert newTask instanceof DeadlineTask;
         }
         case EVENT -> {
-            new_task = addEvent(input, description);
-            assert new_task != null;
-            assert new_task instanceof EventTask;
+            newTask = addEvent(input, description);
+            assert newTask != null;
+            assert newTask instanceof EventTask;
         }
         default -> throw new SophiaException("Invalid Type of command");
         }
 
-        taskList.addTask(new_task);
-        return ui.addTask(new_task, taskList);
+        taskList.addTask(newTask);
+        return ui.addTask(newTask, taskList);
     }
 
     private String handleTask(String userInputs, boolean done) throws SophiaException {
@@ -149,10 +149,11 @@ public class Sophia {
     }
 
     /**
-     * deletTask is responsible for deleting a task from taskList
-     * @param input
-     * @throws SophiaException
-     */
+     * deleteTask is responsible for deleting a task from taskList
+     * @param input specifies an input string representing a command
+     * @throws SophiaException specifies an exception that occurs when
+     *          users type invalid commands
+     * */
     public String deleteTask(String input) throws SophiaException {
         if (!Parser.validateDeleteInput(input)) {
             throw new SophiaException("Usage: delete <index>");
@@ -167,7 +168,15 @@ public class Sophia {
         return str;
     }
 
-    String run(String input) throws SophiaException {
+    /**
+     * Returns a human-readable string representing the response to a command
+     *          that a user types in
+     * @param input which represents a command input from users
+     * @return a string response that is human-readable
+     * @throws SophiaException which is an exception that occurs when command are
+     *          not formatted properly
+     */
+    public String run(String input) throws SophiaException {
         String[] userInputs = input.split("\\s+", 2);
         String cmd = userInputs[0];
 
