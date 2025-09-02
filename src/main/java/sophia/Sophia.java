@@ -3,18 +3,15 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import static java.lang.System.exit;
-
-
 /**
  * Main chatbot class
  */
 //used ChatGpt for quality check of code
 public class Sophia {
     //Keep a list of internal tasks
-    private boolean isExit = false;
     private static final UI ui = new UI();
     private static final String NAME = "Sophia";
+    private boolean isExit = false;
     private final TaskList taskList;
     private final Storage storage;
     /**
@@ -75,9 +72,21 @@ public class Sophia {
                 Arrays.copyOfRange(input.split(" "), 1, segments.length));
 
         switch (Type) {
-        case TODO -> new_task = addTodo(input, description);
-        case DEADLINE -> new_task = addDeadline(input, description);
-        case EVENT -> new_task = addEvent(input, description);
+        case TODO -> {
+            new_task = addTodo(input, description);
+            assert new_task != null;
+            assert new_task instanceof TodoTask;
+        }
+        case DEADLINE -> {
+            new_task = addDeadline(input, description);
+            assert new_task != null;
+            assert new_task instanceof DeadlineTask;
+        }
+        case EVENT -> {
+            new_task = addEvent(input, description);
+            assert new_task != null;
+            assert new_task instanceof EventTask;
+        }
         default -> throw new SophiaException("Invalid Type of command");
         }
 
@@ -116,7 +125,6 @@ public class Sophia {
         if (!Parser.validateSaveInput(input)) {
             throw new SophiaException("Usage: save");
         }
-
         try {
             storage.save(taskList);
         } catch (Exception e) {
@@ -136,6 +144,7 @@ public class Sophia {
         }
         String keyword = input.split(" ")[1].trim();
         List<Task> xs = taskList.findTask(keyword);
+        assert xs != null;
         return ui.printTasksFound(xs);
     }
 
@@ -148,7 +157,7 @@ public class Sophia {
         if (!Parser.validateDeleteInput(input)) {
             throw new SophiaException("Usage: delete <index>");
         }
-
+        assert taskList.taskListSize() > 0;
         int index = Integer.parseInt(input.split(" ")[1]) - 1;
         if (index < 0 || index >= taskList.taskListSize()) {
             throw new SophiaException("No such task exists!");
@@ -228,7 +237,9 @@ public class Sophia {
                 }
                 String input = scanner.nextLine().trim();
                 System.out.println(sophia.run(input));
-                if (sophia.isExit) exit(0);
+                if (sophia.isExit) {
+                    java.lang.System.exit(0);
+                }
             }
         } catch (SophiaException e) {
             System.out.println(e.getMessage());

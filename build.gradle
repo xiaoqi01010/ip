@@ -31,6 +31,10 @@ application {
     mainClass.set("sophia.Launcher")
 }
 
+tasks.named('run') {
+    jvmArgs += ['-ea']
+}
+
 shadowJar {
     archiveBaseName = "seedu.sophia.ToDoTest"
     archiveClassifier = null

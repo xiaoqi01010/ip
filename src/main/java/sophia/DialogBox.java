@@ -14,6 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * Dialog Box is a type of HBox which combines a label and image
+ */
 public class DialogBox extends HBox {
     @FXML
     private Label dialog;
@@ -28,6 +31,8 @@ public class DialogBox extends HBox {
             fxmlLoader.load();
             dialog.setText(text);
             displayPicture.setImage(img);
+            assert dialog != null : "fx:id=\"dialog\" was not injected: check your FXML file.";
+            assert displayPicture != null : "fx:id=\"displayPicture\" was not injected.";
         } catch (IOException e) {
             e.printStackTrace();
         }
