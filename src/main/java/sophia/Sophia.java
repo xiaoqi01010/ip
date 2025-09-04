@@ -229,6 +229,9 @@ public class Sophia {
         }
     }
 
+    public List<String> sendReminder() {
+        return taskList.sendReminder();
+    }
     public String introduceSophie() {
         return ui.introduction(NAME);
     }

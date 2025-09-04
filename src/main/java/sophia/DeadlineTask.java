@@ -2,6 +2,9 @@ package sophia;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a task with a deadline.
@@ -10,8 +13,8 @@ import java.io.IOException;
  * and a deadline date.
  * </p>
  */
-public final class DeadlineTask extends Task {
-    private String ddl;
+public final class DeadlineTask extends Task implements TaskWithDate {
+    private final String ddl;
     /**
      * Constructs a new {@code DeadlineTask}.
      *
@@ -25,6 +28,27 @@ public final class DeadlineTask extends Task {
     }
 
     /**
+     * Returns a boolean that indicates if a task is overdue/deadline is in three days
+     * @return a boolean
+     */
+    public boolean isDueWithinThreeDays() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter dateOnly = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime deadline = null;
+        if (ddl.length() > 10) {
+            System.out.println("HERE dateTime");
+            deadline = LocalDateTime.parse(ddl, dateTime);
+        } else {
+            deadline = LocalDate.parse(ddl, dateOnly).atStartOfDay();
+        }
+        return currentDate.isAfter(deadline.toLocalDate().minusDays(3));
+    }
+
+    public String sendReminder() {
+        return this + "is due soon / is overdue!";
+    }
+    /**
      * Writes this deadline task to the given {@link BufferedWriter}.
      * <p>
      * Format: {@code D | <done> | <name> | <deadline>}
@@ -36,7 +60,7 @@ public final class DeadlineTask extends Task {
     @Override
     public void write(BufferedWriter bw) throws IOException {
         bw.write("D | " + (isDone() ? 1 : 0) + " | "
-                + getName() + " | " + parseDate(ddl) + "\n");
+                + getName() + " | " + ddl + "\n");
         bw.flush();
     }
 

@@ -20,29 +20,34 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private VBox reminderContainer;
 
     private Sophia sophia;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private Image sophiaImage = new Image(this.getClass().getResourceAsStream("/images/sophia.png"));
-
     /**
      * Initialise the UI on anchorpane
      */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+    }
+    public void setSophia(Sophia s) {
+        sophia = s;
         dialogContainer.getChildren().add(
                 DialogBox.getSophiaDialog(
                         "Hello! I’m Sophia. How can I help you today?",
                         sophiaImage
                 )
         );
-    }
-
-    /** Injects the Duke instance */
-    public void setSophia(Sophia s) {
-        sophia = s;
+        ReminderBox rb = ReminderBox.getReminderBox();
+        for (String taskDescription: sophia.sendReminder()) {
+            System.out.println(sophia.sendReminder());
+            rb.addUserTask(taskDescription);
+        }
+        reminderContainer.getChildren().add(rb);
     }
 
     /**

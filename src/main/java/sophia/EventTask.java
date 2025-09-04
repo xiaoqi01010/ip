@@ -1,6 +1,9 @@
 package sophia;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a task with a defined start and end date (an event).
@@ -9,7 +12,7 @@ import java.io.IOException;
  * a start date, and an end date.
  * </p>
  */
-public final class EventTask extends Task {
+public final class EventTask extends Task implements TaskWithDate {
     private final String startDate;
     private final String endDate;
 
@@ -25,6 +28,27 @@ public final class EventTask extends Task {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+    /**
+     * Returns a boolean value indicating if task is due in 3 days
+     * @return
+     */
+    public boolean isDueWithinThreeDays() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter dateOnly = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime deadline = null;
+        if (startDate.length() > 10) {
+            System.out.println("HERE dateTime");
+            deadline = LocalDateTime.parse(startDate, dateTime);
+        } else {
+            deadline = LocalDate.parse(startDate, dateOnly).atStartOfDay();
+        }
+        return currentDate.isAfter(deadline.toLocalDate().minusDays(3));
+    }
+
+    public String sendReminder() {
+        return this + " starts at " + startDate;
+    }
 
     /**
      * Writes this event task to the given {@link BufferedWriter}.
@@ -39,8 +63,8 @@ public final class EventTask extends Task {
     public void write(BufferedWriter bw) throws IOException {
         bw.write("E | " + (isDone() ? 1 : 0)
                 + " | " + getName()
-                + " | " + parseDate(startDate)
-                + " | " + parseDate(endDate)
+                + " | " + startDate
+                + " | " + endDate
                 + "\n");
         bw.flush();
     }
