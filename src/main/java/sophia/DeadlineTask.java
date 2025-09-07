@@ -14,17 +14,17 @@ import java.time.format.DateTimeFormatter;
  * </p>
  */
 public final class DeadlineTask extends Task implements TaskWithDate {
-    private final String ddl;
+    private final String taskDeadline;
     /**
      * Constructs a new {@code DeadlineTask}.
      *
      * @param input the task description
-     * @param ddl   the deadline date (expected format: yyyy-MM-dd or free text)
+     * @param taskDeadline   the deadline date (expected format: yyyy-MM-dd or free text)
      */
-    public DeadlineTask(String input, String ddl) {
+    public DeadlineTask(String input, String taskDeadline) {
         super(input);
-        assert ddl != null && !ddl.isBlank();
-        this.ddl = ddl;
+        assert taskDeadline != null && !taskDeadline.isBlank();
+        this.taskDeadline = taskDeadline;
     }
 
     /**
@@ -36,11 +36,11 @@ public final class DeadlineTask extends Task implements TaskWithDate {
         DateTimeFormatter dateOnly = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime deadline = null;
-        if (ddl.length() > 10) {
+        if (taskDeadline.length() > 10) {
             System.out.println("HERE dateTime");
-            deadline = LocalDateTime.parse(ddl, dateTime);
+            deadline = LocalDateTime.parse(taskDeadline, dateTime);
         } else {
-            deadline = LocalDate.parse(ddl, dateOnly).atStartOfDay();
+            deadline = LocalDate.parse(taskDeadline, dateOnly).atStartOfDay();
         }
         return currentDate.isAfter(deadline.toLocalDate().minusDays(3));
     }
@@ -60,7 +60,7 @@ public final class DeadlineTask extends Task implements TaskWithDate {
     @Override
     public void write(BufferedWriter bw) throws IOException {
         bw.write("D | " + (isDone() ? 1 : 0) + " | "
-                + getName() + " | " + ddl + "\n");
+                + getName() + " | " + taskDeadline + "\n");
         bw.flush();
     }
 
@@ -71,6 +71,6 @@ public final class DeadlineTask extends Task implements TaskWithDate {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + parseDate(ddl) + ")";
+        return "[D]" + super.toString() + " (by: " + parseDate(taskDeadline) + ")";
     }
 }

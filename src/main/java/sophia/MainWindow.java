@@ -24,6 +24,7 @@ public class MainWindow extends AnchorPane {
     private VBox reminderContainer;
 
     private Sophia sophia;
+    private ReminderBox rb;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private Image sophiaImage = new Image(this.getClass().getResourceAsStream("/images/sophia.png"));
@@ -42,16 +43,14 @@ public class MainWindow extends AnchorPane {
                         sophiaImage
                 )
         );
-        ReminderBox rb = ReminderBox.getReminderBox();
-        for (String taskDescription: sophia.sendReminder()) {
-            System.out.println(sophia.sendReminder());
-            rb.addUserTask(taskDescription);
-        }
+        rb = ReminderBox.getReminderBox();
+        rb.updateReminders(sophia);
         reminderContainer.getChildren().add(rb);
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
+     * Creates two dialog boxes, one echoing user input and the other containing
+     * Sophia's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
     @FXML
@@ -69,6 +68,7 @@ public class MainWindow extends AnchorPane {
                     DialogBox.getSophiaDialog(e.getMessage(), sophiaImage)
             );
         }
+        rb.updateReminders(sophia);
         userInput.clear();
         if (sophia.isExit()) {
             java.lang.System.exit(0);

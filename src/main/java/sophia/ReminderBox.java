@@ -16,7 +16,8 @@ public class ReminderBox extends TitledPane {
     private VBox userTaskContainer = new VBox();
     private ReminderBox() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/ReminderBox.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    MainWindow.class.getResource("/view/ReminderBox.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
@@ -27,7 +28,15 @@ public class ReminderBox extends TitledPane {
     public static ReminderBox getReminderBox() {
         return new ReminderBox();
     }
-    public void addUserTask(String task) {
-        userTaskContainer.getChildren().add(new Label(task));
+
+    /**
+     * Updates the list of reminders when called
+     * @param sophia specifying an instance of the Sophia class
+     */
+    public void updateReminders(Sophia sophia) {
+        userTaskContainer.getChildren().clear();
+        for (String taskDescription: sophia.sendReminder()) {
+            userTaskContainer.getChildren().add(new Label(taskDescription));
+        }
     }
 }

@@ -50,7 +50,8 @@ public class Sophia {
     //public for testing
     private Task addDeadline(String input, String description) throws SophiaException {
         if (!Parser.validateDeadlineInput(input)) {
-            throw new SophiaException("deadline <description> /by <YYYY-MM-DD HH:MM> where HH:MM is optional");
+            throw new SophiaException(
+                    "deadline <description> /by <YYYY-MM-DD HH:MM> where HH:MM is optional");
         }
         DeadlineTaskParser parser = new DeadlineTaskParser(description);
         return parser.parse();

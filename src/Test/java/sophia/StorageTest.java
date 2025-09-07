@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * TestStorage class contains the methods which tests functions in storage class
  */
-public class TestStorage {
+public class StorageTest {
     /**
      * Tests if the storage class is able to read from the file specified
      * @throws IOException
