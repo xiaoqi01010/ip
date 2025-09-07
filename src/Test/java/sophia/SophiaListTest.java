@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * A test class that contains test methods to check whether the methods are performing correctly
  */
-public class TestSophiaList {
+public class SophiaListTest {
     /**
      * Tests whether deleteTask function in Sophia works
      * @throws SophiaException if there is any exception expected

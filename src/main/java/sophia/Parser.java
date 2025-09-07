@@ -84,7 +84,9 @@ public interface Parser {
      * @return {@code true} if valid, {@code false} otherwise
      */
     public static boolean validateDeadlineInput(String str) {
-        return validateInput(str, Pattern.compile("^deadline\\s+.+\\s+/by\\s+.+$"));
+        System.out.println(str);
+        return validateInput(str, Pattern.compile(
+                "^deadline\\s+.+\\s+/by\\s+\\d{4}-\\d{2}-\\d{2}+(?:[ T]([01]\\d|2[0-3]):[0-5]\\d)?$"));
     }
 
     /**
@@ -95,10 +97,13 @@ public interface Parser {
      * @return {@code true} if valid, {@code false} otherwise
      */
     public static boolean validateEventInput(String str) {
+        System.out.println(str);
         return validateInput(str,
-                Pattern.compile("^event\\s+.+\\s+/from\\s+.+\\s+/to\\s+.+$"));
+                Pattern.compile(
+                        "^event\\s+.+\\s+"
+                                + "/from\\s+\\d{4}-\\d{2}-\\d{2}+(?:[ T]([01]\\d|2[0-3]):[0-5]\\d)?+"
+                                + "\\s+/to\\s+\\d{4}-\\d{2}-\\d{2}+(?:[ T]([01]\\d|2[0-3]):[0-5]\\d)?$"));
     }
-
     /**
      * Validates whether the input string is a valid {@code list} command.
      * <p>Expected format: {@code list}</p>

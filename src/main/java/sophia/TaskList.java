@@ -22,6 +22,26 @@ public class TaskList {
     }
 
     /**
+     * Returns a formatted string of a list of tasks which are overdue/pending
+     * @return a formatted string
+     */
+    public List<String> sendReminder() {
+        List<String> reminderList = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task instanceof TaskWithDate) {
+                TaskWithDate taskWithDate = (TaskWithDate) task;
+                if (taskWithDate.isDueWithinThreeDays() && !task.isDone()) {
+                    reminderList.add(taskWithDate.sendReminder());
+                }
+            }
+        }
+        if (reminderList.isEmpty()) {
+            reminderList.add("Woohoo, no task is due soon!");
+        }
+        //System.out.println(reminderList);
+        return reminderList;
+    }
+    /**
      * Return a list of Tasks with keywords including key
      * @param key which is the keyword
      * @return a list of tasks

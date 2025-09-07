@@ -2,6 +2,9 @@ package sophia;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a task with a deadline.
@@ -10,20 +13,41 @@ import java.io.IOException;
  * and a deadline date.
  * </p>
  */
-public final class DeadlineTask extends Task {
-    private String ddl;
+public final class DeadlineTask extends Task implements TaskWithDate {
+    private final String taskDeadline;
     /**
      * Constructs a new {@code DeadlineTask}.
      *
      * @param input the task description
-     * @param ddl   the deadline date (expected format: yyyy-MM-dd or free text)
+     * @param taskDeadline   the deadline date (expected format: yyyy-MM-dd or free text)
      */
-    public DeadlineTask(String input, String ddl) {
+    public DeadlineTask(String input, String taskDeadline) {
         super(input);
-        assert ddl != null && !ddl.isBlank();
-        this.ddl = ddl;
+        assert taskDeadline != null && !taskDeadline.isBlank();
+        this.taskDeadline = taskDeadline;
     }
 
+    /**
+     * Returns a boolean that indicates if a task is overdue/deadline is in three days
+     * @return a boolean
+     */
+    public boolean isDueWithinThreeDays() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter dateOnly = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime deadline = null;
+        if (taskDeadline.length() > 10) {
+            System.out.println("HERE dateTime");
+            deadline = LocalDateTime.parse(taskDeadline, dateTime);
+        } else {
+            deadline = LocalDate.parse(taskDeadline, dateOnly).atStartOfDay();
+        }
+        return currentDate.isAfter(deadline.toLocalDate().minusDays(3));
+    }
+
+    public String sendReminder() {
+        return this + "is due soon / is overdue!";
+    }
     /**
      * Writes this deadline task to the given {@link BufferedWriter}.
      * <p>
@@ -36,7 +60,7 @@ public final class DeadlineTask extends Task {
     @Override
     public void write(BufferedWriter bw) throws IOException {
         bw.write("D | " + (isDone() ? 1 : 0) + " | "
-                + getName() + " | " + parseDate(ddl) + "\n");
+                + getName() + " | " + taskDeadline + "\n");
         bw.flush();
     }
 
@@ -47,6 +71,6 @@ public final class DeadlineTask extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + parseDate(ddl) + ")";
+        return "[D]" + super.toString() + " (by: " + parseDate(taskDeadline) + ")";
     }
 }
