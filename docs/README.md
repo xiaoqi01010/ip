@@ -22,6 +22,7 @@ Sophia also supports marking tasks as *done/undone*, deleting tasks, finding tas
     ```text
     bye
     ```
+   
 ## Adding To-dos
 Adds a simple task without a date. <br>
 Usage: `todo <description>`<br>

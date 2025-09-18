@@ -4,12 +4,18 @@ import org.junit.jupiter.api.Test;
 
 //AI generated tests for parser functions
 public class ParserTest {
+    /**
+     * Test if parser validates todo task commands correctly
+     */
     @Test
     void testTodo() {
         org.junit.jupiter.api.Assertions.assertTrue(Parser.validateTodoInput("todo read book"));
         org.junit.jupiter.api.Assertions.assertFalse(Parser.validateTodoInput("todo"));
     }
 
+    /**
+     * Test if parser validates deadline task commands correctly
+     */
     @Test
     void testDeadline() {
         org.junit.jupiter.api.Assertions.assertTrue(Parser.validateDeadlineInput("deadline submit /by 2025-12-09"));
@@ -18,6 +24,9 @@ public class ParserTest {
         org.junit.jupiter.api.Assertions.assertFalse(Parser.validateDeadlineInput("deadline submit report by 2025-12-09"));
     }
 
+    /**
+     * Test if parser validates event task commands correctly
+     */
     @Test
     void testEvent() {
         org.junit.jupiter.api.Assertions.assertTrue(Parser.validateEventInput("event conf /from 2025-12-10 /to 2025-12-12"));
