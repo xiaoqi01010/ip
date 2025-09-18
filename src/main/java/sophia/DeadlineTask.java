@@ -46,7 +46,7 @@ public final class DeadlineTask extends Task implements TaskWithDate {
     }
 
     public String sendReminder() {
-        return this + "is due soon / is overdue!";
+        return this + " is due soon / is overdue!";
     }
     /**
      * Writes this deadline task to the given {@link BufferedWriter}.

@@ -42,14 +42,16 @@ public class TaskList {
         return reminderList;
     }
     /**
-     * Return a list of Tasks with keywords including key
-     * @param key which is the keyword
-     * @return a list of tasks
+     * Returns all tasks whose descriptions contain the given keyword.
+     *
+     * @param key the search keyword
+     * @return a list of matching tasks
      */
     public List<Task> findTask(String key) {
+        String lowerCaseKey = key.toLowerCase();
         List<Task> result = new ArrayList<>();
         for (Task task : tasks) {
-            if (task.getName().contains(key)) {
+            if (task.getName().toLowerCase().contains(lowerCaseKey)) {
                 result.add(task);
             }
         }
@@ -57,11 +59,11 @@ public class TaskList {
     }
 
     /**
-     * Iterate through each task, allowing each task to write its information into a file using
-     * a buffered Writer
-     * <p>
-     * @param bw specifies a BufferedWriter
+     * Writes the serialized form of each task in this list to the provided writer.
+     *
+     * @param bw the {@link java.io.BufferedWriter} to write to
      */
+
     public void write(BufferedWriter bw) throws IOException {
         for (Task task : tasks) {
             task.write(bw);
@@ -69,7 +71,7 @@ public class TaskList {
     }
 
     /**
-     * iterate through every task to print the information of every task
+     * Prints the details of every task in this list to standard output.
      */
     public String printList() {
         StringBuilder str = new StringBuilder();

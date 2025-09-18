@@ -7,12 +7,6 @@ import java.util.List;
  */
 @SuppressWarnings("checkstyle:Regexp")
 public class UI {
-    /**
-     * Print a line to separate previous output
-     */
-    public String printLine() {
-        return "__________________________________________________";
-    }
 
     /**
      * Shows the error message
