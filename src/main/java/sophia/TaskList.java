@@ -47,9 +47,10 @@ public class TaskList {
      * @return a list of tasks
      */
     public List<Task> findTask(String key) {
+        String lowerCaseKey = key.toLowerCase();
         List<Task> result = new ArrayList<>();
         for (Task task : tasks) {
-            if (task.getName().contains(key)) {
+            if (task.getName().toLowerCase().contains(lowerCaseKey)) {
                 result.add(task);
             }
         }
