@@ -1,4 +1,8 @@
 package sophia;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 /**
  * Represents a parser interface for interpreting user input into {@link Task} objects.
@@ -19,6 +23,27 @@ public interface Parser {
      * @throws SophiaException if the input cannot be parsed or is invalid
      */
     public Task parse() throws SophiaException;
+
+    /**
+     * Checks whether the given date string can be parsed into a valid {@link LocalDateTime}.
+     * <p>
+     * This method attempts to parse the input using {@link Parser#stringToLocalDateTime(String)}.
+     * If parsing succeeds, it returns {@code true}. If parsing fails, it throws a
+     * {@link SophiaException} with a descriptive error message.
+     *
+     * @param date the date string to validate, expected in one of the supported formats
+     *             (e.g. {@code yyyy-MM-dd} or {@code yyyy-MM-dd HH:mm})
+     * @return {@code true} if the date string is valid
+     * @throws SophiaException if the input cannot be parsed into a valid {@link LocalDateTime}
+     */
+    public static boolean isValidDate(String date) throws SophiaException {
+        try {
+            LocalDateTime time = Parser.stringToLocalDateTime(date);
+            return true;
+        } catch (DateTimeParseException e) {
+            throw new SophiaException("Date: " + date + " is invalid!");
+        }
+    }
 
 
     /**
@@ -86,9 +111,34 @@ public interface Parser {
     public static boolean validateDeadlineInput(String str) {
         //System.out.println(str);
         return validateInput(str, Pattern.compile(
-                "^deadline\\s+.+\\s+/by\\s+\\d{4}-\\d{2}-\\d{2}+(?:[ T]([01]\\d|2[0-3]):[0-5]\\d)?$"));
+                "^deadline\\s+.+\\s+/by\\s+\\d{4}-\\d{2}-\\d{2}(?: ([01]\\d|2[0-3]):[0-5]\\d)?$"));
     }
 
+    /**
+     * Converts a date string into a {@link LocalDateTime} using the appropriate formatter.
+     * <p>
+     * The method automatically selects the formatter based on the format of the input:
+     * <ul>
+     *   <li>{@code yyyy-MM-dd} → parsed as a {@link LocalDate}, returned as a
+     *       {@link LocalDateTime} at the start of day (00:00)</li>
+     *   <li>{@code yyyy-MM-dd HH:mm} → parsed as a {@link LocalDateTime}</li>
+     * </ul>
+     * If the input does not match any supported format, this method returns {@code null}.
+     *
+     * @param date the date string to parse
+     * @return the parsed {@link LocalDateTime}, or {@code null} if the format is unsupported
+     */
+    public static LocalDateTime stringToLocalDateTime(String date) {
+        if (validateInput(date, Pattern.compile("\\d{4}-\\d{2}-\\d{2}"))) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(date, formatter).atStartOfDay();
+        }
+        if (validateInput(date, Pattern.compile("\\d{4}-\\d{2}-\\d{2} ([01]\\d|2[0-3]):[0-5]\\d"))) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            return LocalDateTime.parse(date, formatter);
+        }
+        return null;
+    }
     /**
      * Validates whether the input string is a valid {@code event} command.
      * <p>Expected format: {@code event <description> /from <start> /to <end>}</p>
@@ -101,8 +151,8 @@ public interface Parser {
         return validateInput(str,
                 Pattern.compile(
                         "^event\\s+.+\\s+"
-                                + "/from\\s+\\d{4}-\\d{2}-\\d{2}+(?:[ T]([01]\\d|2[0-3]):[0-5]\\d)?+"
-                                + "\\s+/to\\s+\\d{4}-\\d{2}-\\d{2}+(?:[ T]([01]\\d|2[0-3]):[0-5]\\d)?$"));
+                                + "/from\\s+\\d{4}-\\d{2}-\\d{2}(?: ([01]\\d|2[0-3]):[0-5]\\d)?"
+                                + "\\s+/to\\s+\\d{4}-\\d{2}-\\d{2}(?: ([01]\\d|2[0-3]):[0-5]\\d)?$"));
     }
     /**
      * Validates whether the input string is a valid {@code list} command.
@@ -138,6 +188,6 @@ public interface Parser {
     }
 
     public static boolean validateFindInput(String str) {
-        return validateInput(str, Pattern.compile("^find\\s+\\S+$"));
+        return validateInput(str, Pattern.compile("^find\\s+.*\\S.*$"));
     }
 }

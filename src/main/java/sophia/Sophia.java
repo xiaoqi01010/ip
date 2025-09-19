@@ -60,7 +60,7 @@ public class Sophia {
     //public for testing
     private Task addEvent(String input, String description) throws SophiaException {
         if (!Parser.validateEventInput(input)) {
-            throw new SophiaException("event <description> /from <YYYY-MM-DD HH:MM> "
+            throw new SophiaException("Usage: event <description> /from <YYYY-MM-DD HH:MM> "
                     + "/to <YYYY-MM-DD HH:MM> HH:MM are optional");
         }
         EventTaskParser parser = new EventTaskParser(description);

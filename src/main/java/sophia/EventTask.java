@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a task with a defined start and end date (an event).
@@ -35,15 +34,8 @@ public final class EventTask extends Task implements TaskWithDate {
      */
     public boolean isDueWithinThreeDays() {
         LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter dateOnly = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime deadline = null;
-        if (startDate.length() > 10) {
-            System.out.println("HERE dateTime");
-            deadline = LocalDateTime.parse(startDate, dateTime);
-        } else {
-            deadline = LocalDate.parse(startDate, dateOnly).atStartOfDay();
-        }
+        LocalDateTime deadline = Parser.stringToLocalDateTime(startDate);
+        assert deadline != null;
         return currentDate.isAfter(deadline.toLocalDate().minusDays(3));
     }
 

@@ -34,6 +34,11 @@ public class DeadlineTaskParser implements Parser {
     @Override
     public Task parse() throws SophiaException {
         String[] taskInfo = this.argument.split("/by ");
-        return new DeadlineTask(taskInfo[0].trim(), taskInfo[taskInfo.length - 1].trim());
+        String description = taskInfo[0].trim();
+        String deadline = taskInfo[taskInfo.length - 1].trim();
+        if (Parser.isValidDate(deadline)) {
+            return new DeadlineTask(description, deadline );
+        }
+        return null;
     }
 }

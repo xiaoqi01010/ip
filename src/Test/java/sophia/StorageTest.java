@@ -30,7 +30,7 @@ public class StorageTest {
             E | 1 | group meeting | 2025-08-23 | 2025-08-24
             """);
         br.flush();
-        System.out.println(file.getPath());
+        //System.out.println(file.getPath());
         Storage storage = new Storage(file.getPath());
         List<Task> xs = storage.load();
         List<Task> ys = new ArrayList<>();

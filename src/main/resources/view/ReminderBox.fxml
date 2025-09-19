@@ -8,7 +8,7 @@
 
 <fx:root animated="false"
          collapsible="true"
-         expanded="true"
+         expanded="false"
          prefHeight="300.0"
          prefWidth="398.0"
          stylesheets="@../css/reminder-box.css"
